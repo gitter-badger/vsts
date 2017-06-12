@@ -1,4 +1,4 @@
-Outsystems
+OutSystems Lifetime
 
 Copyright (c) //TODO:Add owners name
 

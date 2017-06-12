@@ -1,11 +1,11 @@
 {
   "manifestVersion": 1,
-  "id": "outsystems-ext",
-  "version": "0.1.1",
-  "name": "Outsystems",
+  "id": "OutsystemsExt",
+  "version": "0.0.21",
+  "name": "OutSystems Integration",
   "scopes": [],
-  "description": "Outsystems Release Visual Studio Extension",
-  "publisher": "Noesis",
+  "description": "OutSystems Platform Integration",
+  "publisher": "joalmeid",
   "galleryFlags": [
     "Preview"
   ],
@@ -21,10 +21,10 @@
     "api-version/3.0"
   ],
   "tags": [
-    "Sample"
+    "Outsystems"
   ],
   "categories": [
-    "Build and release"
+    "Integrate"
   ],
   "screenshots": [
     {
@@ -41,37 +41,132 @@
   },
   "links": {
     "getstarted": {
-      "uri": "https://bit.ly"
+      "uri": "https://aka.ms/outsystems"
     },
     "support": {
-      "uri": "https://bit.ly"
+      "uri": "https://aka.ms/outsystems"
     },
     "issues": {
-      "uri": "https://bit.ly"
+      "uri": "https://aka.ms/outsystems"
     }
   },
   "repository": {
     "type": "git",
-    "uri": "https://bit.ly"
+    "uri": "https://aka.ms/outsystems"
   },
   "branding": {
-    "color": "rgb(220, 235, 252)",
-    "theme": "light"
+    "color": "rgb(204, 34, 0)",
+    "theme": "dark"
   },
   "files": [
     {
-      "path": "outsystems-release-task"
+      "path": "outsystemsreleasetask"
     }
   ],
   "contributions": [
     {
-      "id": "outsystems-release-task",
+      "id": "outsystemsreleasetask",
       "targets": [
         "ms.vss-distributed-task.tasks"
       ],
       "type": "ms.vss-distributed-task.task",
       "properties": {
-        "name": "outsystems-release-task"
+        "name": "outsystemsreleasetask"
+      }
+    },
+    {
+      "id": "service-endpoint",
+      "description": "Service Endpoint type for OutSystems Platform connections",
+      "type": "ms.vss-endpoint.service-endpoint-type",
+      "targets": [
+        "ms.vss-endpoint.endpoint-types"
+      ],
+      "properties": {
+        "name": "Outsystems",
+        "displayName": "Outsystems Platform connection",
+        "url": {
+          "displayName": "Server Url",
+          "helpText": "Url for the Outsystems Lifetime to connect to."
+        },
+        "dataSources": [
+          {
+            "name": "Outsystems Projects",
+            "endpointUrl": "{{endpoint.url}}lifetimeapi/rest/v1",
+            "resultSelector": "jsonpath:$[*].nm"
+          }
+        ],
+        "authenticationSchemes": [
+          {
+            "type": "ms.vss-endpoint.endpoint-auth-scheme-token"
+          },
+          {
+            "type": "ms.vss-endpoint.endpoint-auth-scheme-basic",
+            "inputDescriptors": [
+              {
+                "id": "username",
+                "name": "Username",
+                "description": "Username",
+                "inputMode": "textbox",
+                "validation": {
+                  "isRequired": false,
+                  "dataType": "string"
+                }
+              },
+              {
+                "id": "password",
+                "name": "Password",
+                "description": "Password",
+                "inputMode": "passwordbox",
+                "isConfidential": true,
+                "validation": {
+                  "isRequired": false,
+                  "dataType": "string"
+                }
+              }
+            ]
+          }
+        ],
+        "helpMarkDown": "<a href=\"https://aka.ms/outsystems\" target=\"_blank\"><b>Learn More</b></a>"
+      }
+    },
+    {
+      "id": "OutsystemsServiceHook",
+      "type": "ms.vss-servicehooks.consumer",
+      "targets": [
+        "ms.vss-servicehooks.consumers"
+      ],
+      "properties": {
+        "id": "OutsystemsConsumer",
+        "name": "Outsystems",
+        "description": "OutSystems low-code development platform has everything you need to build, deploy, manage and change enterprise mobile and web apps faster than ever. It provides you traceability and integration. <a href=\"https://aka.ms/outsystems\" target=\"_blank\"><b>Learn More</b></a> about how Outsytems integration with Visual Studio Team Services.",
+        "informationUrl": "https://aka.ms/outsystems",
+        "inputDescriptors": [
+          {
+            "id": "url",
+            "isRequired": true,
+            "name": "URL",
+            "description": "URL to post event payload to",
+            "inputMode": "textbox"
+          }
+        ],
+        "actions": [
+          {
+            "id": "performAction",
+            "name": "Perform action",
+            "description": "Posts a standard event payload",
+            "supportedEventTypes": [
+              "git.push",
+              "git.pullrequest.created",
+              "git.pullrequest.updated"
+            ],
+            "publishEvent": {
+              "url": "{{{url}}}",
+              "resourceDetailsToSend": "all",
+              "messagesToSend": "all",
+              "detailedMessagesToSend": "all"
+            }
+          }
+        ]
       }
     }
   ]

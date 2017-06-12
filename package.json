@@ -1,16 +1,17 @@
 {
+  "name": "outsystemsextpackage",
+  "private": true,
+  "version": "0.0.1",  
+  "description": "Outsystems Extension Package",
   "scripts": {
-    "package": "npm run clean  && npm run compile  && tfx extension create  --rev-version",
+    "package": "npm run clean && npm run compile && tfx extension create --rev-version --manifest-globs",
     "gallery-publish": "tfx extension publish --rev-version",
-    "clean": "rimraf ./*.vsix",
-    "compile": "tsc -p .",
-    "install-task-lib" : "cd outsystems-release-task && npm install --save-dev"
+    "install-task-lib" : "cd outsystemsreleasetask\\outsystemsreleasetaskV4 && npm install --save-dev",
+    "compile": "tsc -p outsystemsreleasetask\\outsystemsreleasetaskV4",
+    "clean": "rimraf ./*.vsix"
   },
   "devDependencies": {
     "tfx-cli": "^0.4.5",
     "typescript": "^2.3.2"
-  },
-  "name": "packagetask",
-  "private": true,
-  "version": "0.0.1"
+  }
 }

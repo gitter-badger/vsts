@@ -1,6 +1,6 @@
-## Outsystems ##
+## OutSystems Lifetime ##
 
-Outsystems Release Visual Studio Extension
+OutSystems Lifetime Service Hook
 
 ### Quick steps to get started ###
 
@@ -17,7 +17,7 @@ Outsystems Release Visual Studio Extension
 The [source](//TODO:Point to your repo or remove this) to this extension is available. Feel free to take, fork, and extend.
 
 //TODO:Update the 3rd party notices file or remove the view notices reference.
-[View Notices](https://marketplace.visualstudio.com/_apis/public/gallery/publisher/Noesis/extension/outsystems-ext/latest/assetbyname/ThirdPartyNotices.txt) for third party software included in this extension.
+[View Notices](https://marketplace.visualstudio.com/_apis/public/gallery/publisher/Outsystems/extension/OSLifetime/latest/assetbyname/ThirdPartyNotices.txt) for third party software included in this extension.
 
 ### Minimum supported environments ###
 
