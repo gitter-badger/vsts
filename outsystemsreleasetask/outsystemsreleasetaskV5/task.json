@@ -11,7 +11,7 @@
     "author": "João Almeida",
     "version": {
         "Major": 5,
-        "Minor": 7,
+        "Minor": 9,
         "Patch": 0
     },
     "demands": [],
@@ -19,7 +19,7 @@
     "groups": [
         {
             "name": "osplatform",
-            "displayName": "Outsystems Platform",
+            "displayName": "Outsystems Deploy",
             "isExpanded": true
         }
     ],
@@ -29,8 +29,7 @@
             "type": "connectedService:Outsystems",
             "label": "Outsystems Service Connection",
             "required": true,
-            "helpMarkDown": "Select a Outsystems service connection.",
-            "groupName": "osplatform"
+            "helpMarkDown": "Select a Outsystems service connection."
         },
         {
             "name": "outsystemsApplication",
@@ -45,25 +44,21 @@
         {
             "name": "outsystemsApplicationVersion",
             "type": "picklist",
-            "label": "Application",
+            "label": "Application Version",
             "defaultValue": "",
             "required": true,
             "helpMarkDown": "Select the Outsystems Application Version to deploy.",
-            "visibleRule": "outsystemsApplication != \"\"",
+            //"visibleRule": "outsystemsApplication != \"\"",
             "groupName": "osplatform"
         },        
         {
             "name": "outsystemsDeployPlanOption",
-            "type": "radio",
-            "label": "Deploy Plan",
+            "type": "boolean",
+            "label": "New Deploy Plan?",
             "defaultValue": "Existing",
             "required": true,
-            "helpMarkDown": "Select aa new Outsystems Deployment Plan or new one.",
-            "groupName": "osplatform",
-            "options": {
-                "New": "New Deployment Plan",
-                "Existing": "Exsiting Deployment Plan"
-            }
+            "helpMarkDown": "Should the task create a new Outsystems Deployment Plan?",
+            "groupName": "osplatform"
         },
         {
             "name": "outsystemsNewDeployPlan",

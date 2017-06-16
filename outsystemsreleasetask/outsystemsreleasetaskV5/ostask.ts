@@ -95,7 +95,7 @@ async function doWork() {
                 .then((res) => {
 
                     let deployKey: string = res.body;
-                    tl.debug(`Outsystems Deployment Plan created: ${deployKey}`;
+                    tl.debug(`Outsystems Deployment Plan created: ${deployKey}`);
                     return lifetime.deploymentsExecuteCommand(deployKey, depCommand);
                 })
                 .finally(() => {
