@@ -6,8 +6,8 @@
   "scripts": {
     "package": "npm run clean && npm run compile && tfx extension create --rev-version --manifest-globs",
     "gallery-publish": "tfx extension publish --rev-version",
-    "install-task-lib" : "cd outsystemsreleasetask\\outsystemsreleasetaskV4 && npm install --save-dev",
-    "compile": "tsc -p outsystemsreleasetask\\outsystemsreleasetaskV4",
+    "install-task-lib" : "cd outsystemsreleasetask\\outsystemsreleasetaskV5 && npm install --save-dev",
+    "compile": "tsc -p outsystemsreleasetask\\outsystemsreleasetaskV5",
     "clean": "rimraf ./*.vsix"
   },
   "devDependencies": {

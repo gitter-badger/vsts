@@ -1,0 +1,150 @@
+{
+    "id": "68d6186c-4f5e-11e7-b114-b2f933d5fe66",
+    "name": "outsystemsreleasetask",
+    "friendlyName": "Outsystems Release Task",
+    "description": "Outsystems Release Task",
+    "helpMarkDown": "[More Information](https://aka.ms/outsystems)",
+    "category": "Deploy",
+    "visibility": [
+        "Release"
+    ],
+    "author": "João Almeida",
+    "version": {
+        "Major": 5,
+        "Minor": 7,
+        "Patch": 0
+    },
+    "demands": [],
+    "minimumAgentVersion": "1.99.0",
+    "groups": [
+        {
+            "name": "osplatform",
+            "displayName": "Outsystems Platform",
+            "isExpanded": true
+        }
+    ],
+    "inputs": [
+        {
+            "name": "outsystemsServiceEndpoint",
+            "type": "connectedService:Outsystems",
+            "label": "Outsystems Service Connection",
+            "required": true,
+            "helpMarkDown": "Select a Outsystems service connection.",
+            "groupName": "osplatform"
+        },
+        {
+            "name": "outsystemsApplication",
+            "type": "picklist",
+            "label": "Application",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Select the application to deploy.",
+            //"visibleRule": "outsystemsServiceEndpoint != \"\"",
+            "groupName": "osplatform"
+        },
+        {
+            "name": "outsystemsApplicationVersion",
+            "type": "picklist",
+            "label": "Application",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Select the Outsystems Application Version to deploy.",
+            "visibleRule": "outsystemsApplication != \"\"",
+            "groupName": "osplatform"
+        },        
+        {
+            "name": "outsystemsDeployPlanOption",
+            "type": "radio",
+            "label": "Deploy Plan",
+            "defaultValue": "Existing",
+            "required": true,
+            "helpMarkDown": "Select aa new Outsystems Deployment Plan or new one.",
+            "groupName": "osplatform",
+            "options": {
+                "New": "New Deployment Plan",
+                "Existing": "Exsiting Deployment Plan"
+            }
+        },
+        {
+            "name": "outsystemsNewDeployPlan",
+            "type": "string",
+            "label": "New Plan",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The name of the new Outsystems Deployment Plan to be created.",
+            "visibleRule": "outsystemsDeployPlanOption != New",
+            "groupName": "osplatform"
+        },
+        {
+            "name": "outsystemsExistingDeployPlan",
+            "type": "picklist",
+            "label": "Existing Plan",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The name of the existing Outsystems Deployment Plan to be created.",
+            "visibleRule": "outsystemsDeployPlanOption != Existing",
+            "groupName": "osplatform"
+        },
+        {
+            "name": "outsystemsSourceEnvironment",
+            "type": "picklist",
+            "label": "Source Environment",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Select the source environment for this deployment.",
+            "groupName": "osplatform"
+        },
+        {
+            "name": "outsystemsTargetEnvironment",
+            "type": "picklist",
+            "label": "Target Environment",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Select the target environment for this deployment.",
+            "groupName": "osplatform"
+        },
+        {
+            "name": "outsystemsDeployNotes",
+            "type": "multiline",
+            "label": "Deploy Notes",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Outsystems Deployment Plan Notes.",
+            "groupName": "osplatform",
+            "properties": {
+                "resizable": "true",
+                "rows": "4"
+            }
+        }
+    ],
+    "dataSourceBindings": [
+        {
+            "target": "outsystemsApplication",
+            "endpointId": "$(outsystemsServiceEndpoint)",
+            "dataSourceName": "osLifetimeApps",
+            "resultTemplate": "{ \"Value\" : \"{{{Key}}}\", \"DisplayValue\" : \"{{{Name}}}\" }"
+        },
+        {
+            "target": "outsystemsSourceEnvironment",
+            "endpointId": "$(outsystemsServiceEndpoint)",
+            "dataSourceName": "osLifetimeEnvironments",
+            "resultTemplate": "{ \"Value\" : \"{{{Key}}}\", \"DisplayValue\" : \"{{{Name}}}\" }"
+        },
+        {
+            "target": "outsystemsTargetEnvironment",
+            "endpointId": "$(outsystemsServiceEndpoint)",
+            "dataSourceName": "osLifetimeEnvironments",
+            "resultTemplate": "{ \"Value\" : \"{{{Key}}}\", \"DisplayValue\" : \"{{{Name}}}\" }"
+        }
+    ],
+    "instanceNameFormat": "Deploy Outsystems App:$(outsystemsApplication)",
+    "execution": {
+        "Node": {
+            "target": "ostask.js"
+        }
+    },
+    "messages": {
+        "OSNotDetected": "Outsystems Platform not detected (unable to reach url)",
+        "OSFailed": "Outsystems failed with error: %s"
+    }
+}
