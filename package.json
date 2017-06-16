@@ -4,6 +4,7 @@
   "version": "0.0.1",  
   "description": "Outsystems Extension Package",
   "scripts": {
+    "build": "npm run clean && npm run compile",
     "package": "npm run clean && npm run compile && tfx extension create --rev-version --manifest-globs",
     "gallery-publish": "tfx extension publish --rev-version",
     "install-task-lib" : "cd outsystemsreleasetask\\outsystemsreleasetaskV5 && npm install --save-dev",
