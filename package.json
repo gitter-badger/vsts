@@ -4,12 +4,11 @@
   "version": "0.0.1",  
   "description": "Outsystems Extension Package",
   "scripts": {
-    "build": "npm run clean && npm run compile",
-    "package": "npm run clean && npm run compile && tfx extension create --rev-version --manifest-globs",
-    "gallery-publish": "tfx extension publish --rev-version",
-    "install-task-lib" : "cd outsystemsreleasetask\\outsystemsreleasetaskV5 && npm install --save-dev",
+    "clean": "rimraf ./*.vsix",
     "compile": "tsc -p outsystemsreleasetask\\outsystemsreleasetaskV5",
-    "clean": "rimraf ./*.vsix"
+    "build": "npm run clean && npm run compile",
+    "package": "npm run build && tfx extension create --rev-version --manifest-globs",
+    "install-task-lib" : "cd outsystemsreleasetask\\outsystemsreleasetaskV5 && npm install --save-dev"
   },
   "devDependencies": {
     "tfx-cli": "^0.4.5",

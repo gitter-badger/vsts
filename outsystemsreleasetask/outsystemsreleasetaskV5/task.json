@@ -11,7 +11,7 @@
     "author": "João Almeida",
     "version": {
         "Major": 5,
-        "Minor": 9,
+        "Minor": 11,
         "Patch": 0
     },
     "demands": [],
@@ -50,7 +50,7 @@
             "helpMarkDown": "Select the Outsystems Application Version to deploy.",
             //"visibleRule": "outsystemsApplication != \"\"",
             "groupName": "osplatform"
-        },        
+        },
         {
             "name": "outsystemsDeployPlanOption",
             "type": "boolean",
@@ -67,7 +67,7 @@
             "defaultValue": "",
             "required": true,
             "helpMarkDown": "The name of the new Outsystems Deployment Plan to be created.",
-            "visibleRule": "outsystemsDeployPlanOption != New",
+            //            "visibleRule": "outsystemsDeployPlanOption != New",
             "groupName": "osplatform"
         },
         {
@@ -77,7 +77,7 @@
             "defaultValue": "",
             "required": true,
             "helpMarkDown": "The name of the existing Outsystems Deployment Plan to be created.",
-            "visibleRule": "outsystemsDeployPlanOption != Existing",
+            //            "visibleRule": "outsystemsDeployPlanOption != Existing",
             "groupName": "osplatform"
         },
         {
@@ -117,6 +117,15 @@
             "target": "outsystemsApplication",
             "endpointId": "$(outsystemsServiceEndpoint)",
             "dataSourceName": "osLifetimeApps",
+            "resultTemplate": "{ \"Value\" : \"{{{Key}}}\", \"DisplayValue\" : \"{{{Name}}}\" }"
+        },
+        {
+            "target": "outsystemsApplicationVersion",
+            "endpointId": "$(outsystemsServiceEndpoint)",
+            "dataSourceName": "osLifetimeApps",
+            "parameters": {
+                "WebAppName": "$(outsystemsApplication)"
+            },
             "resultTemplate": "{ \"Value\" : \"{{{Key}}}\", \"DisplayValue\" : \"{{{Name}}}\" }"
         },
         {

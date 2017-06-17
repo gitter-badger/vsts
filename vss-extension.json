@@ -1,7 +1,7 @@
 {
   "manifestVersion": 1,
   "id": "OutsystemsExt",
-  "version": "0.0.37",
+  "version": "0.1.2",
   "name": "OutSystems Integration",
   "scopes": [],
   "description": "OutSystems Platform Integration",
@@ -104,28 +104,24 @@
         "dataSources": [
           {
             "name": "TestConnection",
-            "endpointUrl": "{{endpoint.url}}lifetimeapi/rest/v1/swagger.json",
+            "endpointUrl": "{{endpoint.url}}/lifetimeapi/rest/v1/swagger.json",
             "resultSelector": "jsonpath:$.basePath"
           },
           {
             "name": "osLifetimeApps",
-            "endpointUrl": "{{endpoint.url}}lifetimeapi/rest/v1/applications",
-            "resultSelector": "jsonpath:$[*]"
+            "endpointUrl": "{{endpoint.url}}/lifetimeapi/rest/v1/applications"
           },
           {
             "name": "osLifetimeEnvironments",
-            "endpointUrl": "{{endpoint.url}}lifetimeapi/rest/v1/environments",
-            "resultSelector": "jsonpath:$[*]"
+            "endpointUrl": "{{endpoint.url}}/lifetimeapi/rest/v1/environments"
           },
           {
             "name": "osLifetimeDeployments",
-            "endpointUrl": "{{endpoint.url}}lifetimeapi/rest/v1/deployments",
-            "resultSelector": "jsonpath:$[*]"
+            "endpointUrl": "{{endpoint.url}}/lifetimeapi/rest/v1/deployments"
           },
           {
             "name": "osLifetimeModules",
-            "endpointUrl": "{{endpoint.url}}lifetimeapi/rest/v1/modules",
-            "resultSelector": "jsonpath:$[*]"
+            "endpointUrl": "{{endpoint.url}}/lifetimeapi/rest/v1/modules"
           }
         ],
         "authenticationSchemes": [
