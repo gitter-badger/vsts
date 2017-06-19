@@ -1,0 +1,85 @@
+{
+  "groupId":"outsystems.microsoft",
+  "artifactId":"lifetime",
+  "artifactVersion":"0.0.1",
+  "projectName":"lifetime-sdk",
+  "projectDescription":"Client library of Outsystems Lifetime",
+  "projectVersion":"0.0.1",
+  "supportsES6":true
+}
+
+/* TYPESCRIPT-NODE
+
+sortParamsByRequiredFlag
+	Sort method arguments to place required parameters before optional parameters. (Default: true)
+
+ensureUniqueParams
+	Whether to ensure parameter names are unique in an operation (rename parameters that are not). (Default: true)
+
+allowUnicodeIdentifiers
+	boolean, toggles whether unicode identifiers are allowed in names or not, default is false (Default: false)
+
+modelPropertyNaming
+	Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name (Default: camelCase)
+
+supportsES6
+	Generate code that conforms to ES6. (Default: false)
+
+npmName
+	The name under which you want to publish generated npm package
+
+npmVersion
+	The version of your npm package
+
+npmRepository
+	Use this property to set an url your private npmRepo in the package.json
+
+snapshot
+	When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm (Default: false)
+
+*/
+
+
+/*  JAVASCRIPT
+localVariablePrefix
+    prefix for generated code members and local variables
+
+invokerPackage
+    root package for generated code
+
+apiPackage
+    package for generated api classes
+
+modelPackage
+    package for generated models
+
+projectName
+    name of the project (Default: generated from info.title or "swagger-js-client")
+
+moduleName
+    module name for AMD, Node or globals (Default: generated from <projectName>)
+
+projectDescription
+    description of the project (Default: using info.description or "Client library of <projectName>")
+
+projectVersion
+    version of the project (Default: using info.version or "1.0.0")
+
+projectLicenseName
+    name of the license the project uses (Default: using info.license.name)
+
+usePromises
+    use Promises as return values from the client API, instead of superagent callbacks (Default: false)
+
+emitModelMethods
+    generate getters and setters for model properties (Default: false)
+
+emitJSDoc
+    generate JSDoc comments (Default: true)
+
+useInheritance
+    use JavaScript prototype chains & delegation for inheritance (Default: true)
+
+hideGenerationTimestamp
+    hides the timestamp when files were generated (Default: true)
+*/

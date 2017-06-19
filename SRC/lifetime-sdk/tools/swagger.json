@@ -1,0 +1,1536 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"title": "v1",
+		"description": "",
+		"version": "1"
+	},
+	"basePath": "/lifetimeapi/rest/v1",
+	"schemes": ["https"],
+	"paths": {
+		"/applications/": {
+			"get": {
+				"tags": ["v1"],
+				"description": "Returns a list of applications that exist in the infrastructure.",
+				"operationId": "Applications_List",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "IncludeModules",
+					"in": "query",
+					"required": false,
+					"type": "boolean",
+					"example": false,
+					"description": "When set to true, the modules are also returned. The default value is false."
+				},
+				{
+					"name": "IncludeEnvStatus",
+					"in": "query",
+					"required": false,
+					"type": "boolean",
+					"example": false,
+					"description": "When set to true, the application status per environment is also returned. The default value is false."
+				}],
+				"responses": {
+					"200": {
+						"description": "A list of Application records including AppStatusInEnv sub-lists, if requested.",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/Application"
+							},
+							"description": "A list of Application records including AppStatusInEnv sub-lists, if requested."
+						}
+					}
+				}
+			}
+		},
+		"/applications/{ApplicationKey}/": {
+			"get": {
+				"tags": ["v1"],
+				"description": "Returns the details of a given application.",
+				"operationId": "Applications_Get",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "ApplicationKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the desired application."
+				},
+				{
+					"name": "IncludeModules",
+					"in": "query",
+					"required": false,
+					"type": "boolean",
+					"example": false,
+					"description": "When set to true, the modules details are also retrieved. The default value is false."
+				},
+				{
+					"name": "IncludeEnvStatus",
+					"in": "query",
+					"required": false,
+					"type": "boolean",
+					"example": false,
+					"description": "When set to true, the application status per environment is also returned. The default value is false."
+				}],
+				"responses": {
+					"200": {
+						"description": "An Application record including an AppStatusInEnv sub-list, if requested.",
+						"schema": {
+							"$ref": "#/definitions/Application"
+						}
+					}
+				}
+			}
+		},
+		"/applications/{ApplicationKey}/versions/": {
+			"get": {
+				"tags": ["v1"],
+				"description": "Returns a list of versions of a given application.",
+				"operationId": "Applications_Versions_List",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "ApplicationKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the desired application."
+				},
+				{
+					"name": "MaximumVersionsToReturn",
+					"in": "query",
+					"required": false,
+					"type": "integer",
+					"example": 0,
+					"format": "int32",
+					"description": "The maximum number of versions to return. The default value is 5."
+				}],
+				"responses": {
+					"200": {
+						"description": "A list of ApplicationVersion records.",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/ApplicationVersion"
+							},
+							"description": "A list of ApplicationVersion records."
+						}
+					}
+				}
+			}
+		},
+		"/applications/{ApplicationKey}/versions/{VersionKey}/": {
+			"get": {
+				"tags": ["v1"],
+				"description": "Returns the details of a given version of the specified application.",
+				"operationId": "Applications_Versions_Get",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "ApplicationKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the application whose version is being requested."
+				},
+				{
+					"name": "VersionKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the desired application version."
+				},
+				{
+					"name": "IncludeModules",
+					"in": "query",
+					"required": true,
+					"type": "boolean",
+					"example": false,
+					"description": "When set to true, the modules details are also retrieved. The default value is false."
+				}],
+				"responses": {
+					"200": {
+						"description": "An ApplicationVersion record.",
+						"schema": {
+							"$ref": "#/definitions/ApplicationVersion"
+						}
+					}
+				}
+			}
+		},
+		"/deployments/": {
+			"get": {
+				"tags": ["v1"],
+				"description": "Returns a list of deployments ordered by creation date, from newest to oldest.",
+				"operationId": "Deployments_List",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "MinDate",
+					"in": "query",
+					"required": false,
+					"type": "string",
+					"format": "date",
+					"example": "2014-12-31",
+					"description": "The minimum creation date of the deployments to return. The default value is 1 week before the current date."
+				},
+				{
+					"name": "MaxDate",
+					"in": "query",
+					"required": false,
+					"type": "string",
+					"format": "date",
+					"example": "2014-12-31",
+					"description": "The maximum creation date of the deployments to return. The default value is the current date."
+				}],
+				"responses": {
+					"200": {
+						"description": "A list of Deployment records.",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/Deployment"
+							},
+							"description": "A list of Deployment records."
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": ["v1"],
+				"description": "Creates a deployment to a target environment. An optional list of applications to include in the deployment can be specified. The input is a subset of deployment object.",
+				"operationId": "Deployments_Create",
+				"consumes": ["application/json"],
+				"produces": ["text/plain"],
+				"parameters": [{
+					"name": "DeploymentData",
+					"in": "body",
+					"description": "A Deployment record.",
+					"required": true,
+					"schema": {
+						"$ref": "#/definitions/NotesSourceEnvironmentKeyTargetEnvironmentKeyApplicationVersionKeysRecord"
+					}
+				}],
+				"responses": {
+					"200": {
+						"description": "The key of the newly created deployment.",
+						"schema": {
+							"type": "string",
+							"default": "",
+							"description": "The key of the newly created deployment."
+						}
+					}
+				}
+			}
+		},
+		"/deployments/{DeploymentKey}/": {
+			"delete": {
+				"tags": ["v1"],
+				"description": "Discards a deployment, if possible. Only deployments whose state is “saved” can be deleted.",
+				"operationId": "Deployments_Delete",
+				"parameters": [{
+					"name": "DeploymentKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the deployment to delete."
+				}],
+				"responses": {
+					"200": {
+						"description": ""
+					}
+				}
+			},
+			"get": {
+				"tags": ["v1"],
+				"description": "Returns the details of a given deployment. The returned information contains the included applications and the possible conflicts that can arise from the deployment of the current applications.",
+				"operationId": "Deployments_Get",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "DeploymentKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the desired deployment."
+				}],
+				"responses": {
+					"200": {
+						"description": "A Deployment record.",
+						"schema": {
+							"$ref": "#/definitions/DeploymentApplicationConflictsRecord"
+						}
+					}
+				}
+			},
+			"put": {
+				"tags": ["v1"],
+				"description": "Updates a given deployment. An optional list of applications to include in the deployment can be specified. The input is a subset of deployment object.",
+				"operationId": "Deployments_Update",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "DeploymentKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the deployment to update."
+				},
+				{
+					"name": "DeploymentData",
+					"in": "body",
+					"description": "The deployment information to update.",
+					"required": true,
+					"schema": {
+						"$ref": "#/definitions/NotesSourceEnvironmentKeyTargetEnvironmentKeyApplicationVersionKeysRecord"
+					}
+				}],
+				"responses": {
+					"200": {
+						"description": "A Deployment record containing the updated information.",
+						"schema": {
+							"$ref": "#/definitions/Deployment"
+						}
+					}
+				}
+			}
+		},
+		"/deployments/{DeploymentKey}/{Command}/": {
+			"post": {
+				"tags": ["v1"],
+				"description": "Executes the given command in a specified deployment. The allowed commands are “start”, “continue” and “abort”.",
+				"operationId": "Deployments_ExecuteCommand",
+				"parameters": [{
+					"name": "DeploymentKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the deployment where the command will be executed."
+				},
+				{
+					"name": "Command",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The command to execute. One of “start”, “continue” or “abort”. "
+				}],
+				"responses": {
+					"200": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/deployments/{DeploymentKey}/status/": {
+			"get": {
+				"tags": ["v1"],
+				"description": "Returns the details of a given deployment execution, including the deployment status and messages.",
+				"operationId": "Deployments_GetStatus",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "DeploymentKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the deployment whose status is being requested."
+				}],
+				"responses": {
+					"200": {
+						"description": "The current status of the deployment. One of “saved”, “running”, “needs_user_intervention”, “aborted”, “aborting”, “finished_successful”, “finished_with_warnings” or “finished_with_errors”.",
+						"schema": {
+							"$ref": "#/definitions/DeploymentStatusDeploymentLogRecord"
+						}
+					}
+				}
+			}
+		},
+		"/downloads/{DownloadKey}/": {
+			"get": {
+				"tags": ["v1"],
+				"description": "@hide This is a method use only to actually download the files is not really an API method.",
+				"operationId": "Downloads",
+				"produces": ["application/octet-stream"],
+				"parameters": [{
+					"name": "DownloadKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": ""
+				}],
+				"responses": {
+					"200": {
+						"description": "",
+						"schema": {
+							"type": "string"
+						},
+						"headers": {
+							"Filename": {
+								"type": "string",
+								"default": ""
+							}
+						}
+					}
+				}
+			}
+		},
+		"/environments/": {
+			"get": {
+				"tags": ["v1"],
+				"description": "Lists all the environments in the infrastructure.",
+				"operationId": "Environments_List",
+				"produces": ["application/json"],
+				"responses": {
+					"200": {
+						"description": "A list of Environment records.",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/Environment"
+							},
+							"description": "A list of Environment records."
+						}
+					}
+				}
+			}
+		},
+		"/environments/{EnvironmentKey}/": {
+			"get": {
+				"tags": ["v1"],
+				"description": "Returns the details of a given environment.",
+				"operationId": "Environments_Get",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "EnvironmentKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the desired environment."
+				}],
+				"responses": {
+					"200": {
+						"description": "An Environment record.",
+						"schema": {
+							"$ref": "#/definitions/Environment"
+						}
+					}
+				}
+			}
+		},
+		"/environments/{EnvironmentKey}/applications/": {
+			"get": {
+				"tags": ["v1"],
+				"description": "Returns information about the running versions of all applications in a given environment.",
+				"operationId": "Environments_GetRunningApps",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "EnvironmentKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the environment whose list of running applications is being requested."
+				},
+				{
+					"name": "IncludeModules",
+					"in": "query",
+					"required": false,
+					"type": "boolean",
+					"example": false,
+					"description": "When set to true, the modules details are also retrieved. The default value is false."
+				},
+				{
+					"name": "IncludeEnvStatus",
+					"in": "query",
+					"required": false,
+					"type": "boolean",
+					"example": false,
+					"description": "When set to true, the applications’ status information in the environment is included in the result. The default value is false."
+				}],
+				"responses": {
+					"200": {
+						"description": "A list of Application records.",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/Application"
+							},
+							"description": "A list of Application records."
+						}
+					}
+				}
+			}
+		},
+		"/environments/{EnvironmentKey}/applications/{ApplicationKey}/": {
+			"get": {
+				"tags": ["v1"],
+				"description": "Returns information about the running version of the specified application in a given environment.",
+				"operationId": "Environments_GetRunningApp",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "EnvironmentKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the environment from which to get the running application details."
+				},
+				{
+					"name": "ApplicationKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the application whose details are being requested."
+				},
+				{
+					"name": "IncludeEnvStatus",
+					"in": "query",
+					"required": false,
+					"type": "boolean",
+					"example": false,
+					"description": "When set to true, the applications’ status information in the environment is included in the result. The default value is false."
+				},
+				{
+					"name": "IncludeModules",
+					"in": "query",
+					"required": false,
+					"type": "boolean",
+					"example": false,
+					"description": "When set to true, the modules details are also retrieved. The default value is false."
+				}],
+				"responses": {
+					"200": {
+						"description": "An Application record.",
+						"schema": {
+							"$ref": "#/definitions/Application"
+						}
+					}
+				}
+			}
+		},
+		"/environments/{EnvironmentKey}/applications/{ApplicationKey}/content/": {
+			"get": {
+				"tags": ["v1"],
+				"description": "Returns a link where the binary file for a given application can be downloaded. The link will expire in 60 minutes.",
+				"operationId": "Environments_DownloadRunningApp",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "EnvironmentKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the environment from which to get the application binary file link."
+				},
+				{
+					"name": "ApplicationKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the application for which to get the binary file link."
+				},
+				{
+					"name": "Type",
+					"in": "query",
+					"required": false,
+					"type": "string",
+					"default": "",
+					"description": "The type of binary file to return, when applicable. One of “oap”, “apk” or “ipa”."
+				}],
+				"responses": {
+					"200": {
+						"description": "The link for the application binary file.",
+						"schema": {
+							"$ref": "#/definitions/DownloadLink"
+						},
+						"headers": {
+							"Expires": {
+								"type": "string",
+								"format": "date-time",
+								"example": "2014-12-31T23:59:59.938Z",
+								"description": "The expiration date and time of the returned link."
+							}
+						}
+					}
+				}
+			}
+		},
+		"/environments/{EnvironmentKey}/applications/{ApplicationKey}/versions/": {
+			"post": {
+				"tags": ["v1"],
+				"description": "Creates a new version of the application based on the current running application.",
+				"operationId": "Environments_Applications_Versions_Create",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "EnvironmentKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the environment from which to get the application."
+				},
+				{
+					"name": "ApplicationKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The key of the application for which to generate a new version."
+				},
+				{
+					"name": "ApplicationVersionCreate",
+					"in": "body",
+					"description": "A structure holding the new version name for the application and for its native applications, if applicable.",
+					"required": true,
+					"schema": {
+						"$ref": "#/definitions/ApplicationVersionCreate"
+					}
+				}],
+				"responses": {
+					"200": {
+						"description": "The key of the newly created application version.",
+						"schema": {
+							"$ref": "#/definitions/ApplicationVersionKeyRecord"
+						}
+					}
+				}
+			}
+		},
+		"/modules/": {
+			"get": {
+				"tags": ["v1"],
+				"description": "Returns a list of modules that exist in the infrastructure.",
+				"operationId": "Modules_List",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "IncludeEnvStatus",
+					"in": "query",
+					"required": false,
+					"type": "boolean",
+					"example": false,
+					"description": "When set to true, the module status per environment is also returned. The default value is false."
+				}],
+				"responses": {
+					"200": {
+						"description": "List of Module records",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/Module"
+							},
+							"description": "List of Module records"
+						}
+					}
+				}
+			}
+		},
+		"/modules/{ModuleKey}/": {
+			"get": {
+				"tags": ["v1"],
+				"description": "Returns the details of a given module.",
+				"operationId": "Modules_Get",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "ModuleKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "Key of the module to list the details from."
+				},
+				{
+					"name": "IncludeEnvStatus",
+					"in": "query",
+					"required": false,
+					"type": "boolean",
+					"example": false,
+					"description": "When set to true, the module status per environment is also returned. The default value is false."
+				}],
+				"responses": {
+					"200": {
+						"description": "Module record",
+						"schema": {
+							"$ref": "#/definitions/Module"
+						}
+					}
+				}
+			}
+		},
+		"/modules/{ModuleKey}/versions/": {
+			"get": {
+				"tags": ["v1"],
+				"description": "Returns a list of versions of a given module.",
+				"operationId": "ModuleVersions_List",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "ModuleKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The module from where to retrieve the versions from."
+				},
+				{
+					"name": "IncludePublicElements",
+					"in": "query",
+					"required": false,
+					"type": "boolean",
+					"example": false,
+					"description": "Boolean to indicate if public elements should be returned. Default is false."
+				},
+				{
+					"name": "IncludeConsumedElements",
+					"in": "query",
+					"required": false,
+					"type": "boolean",
+					"example": false,
+					"description": "Boolean to indicate if consumed elements should be returned. Default is false."
+				},
+				{
+					"name": "MaximumVersionsToReturn",
+					"in": "query",
+					"required": false,
+					"type": "integer",
+					"example": 0,
+					"format": "int32",
+					"description": "Maximum number of versions to return. Default is 5."
+				}],
+				"responses": {
+					"200": {
+						"description": "List of record ModuleVersion",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/ModuleVersion"
+							},
+							"description": "List of record ModuleVersion"
+						}
+					}
+				}
+			}
+		},
+		"/modules/{ModuleKey}/versions/{ModuleVersionKey}/": {
+			"get": {
+				"tags": ["v1"],
+				"description": "Returns the details of a given module version.",
+				"operationId": "ModuleVersion_Get",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "ModuleKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "The module from where to retrieve the versions from."
+				},
+				{
+					"name": "ModuleVersionKey",
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"default": "",
+					"description": "Key of the module version to return."
+				},
+				{
+					"name": "IncludePublicElements",
+					"in": "query",
+					"required": false,
+					"type": "boolean",
+					"example": false,
+					"description": "Boolean to indicate if public elements should be returned. Default is false."
+				},
+				{
+					"name": "IncludeConsumedElements",
+					"in": "query",
+					"required": false,
+					"type": "boolean",
+					"example": false,
+					"description": "Boolean to indicate if consumed elements should be returned. Default is false."
+				}],
+				"responses": {
+					"200": {
+						"description": "Record of ModuleVersion",
+						"schema": {
+							"$ref": "#/definitions/ModuleVersion"
+						}
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"Application": {
+			"description": "An application with its details and its status in the environments were it is running.",
+			"type": "object",
+			"properties": {
+				"Key": {
+					"type": "string",
+					"default": "",
+					"description": "Application unique identifier."
+				},
+				"Name": {
+					"type": "string",
+					"default": "",
+					"description": "Name of the application."
+				},
+				"Kind": {
+					"type": "string",
+					"default": "",
+					"description": "Identifies the kind of application. [Mobile|WebResponsive]"
+				},
+				"Team": {
+					"type": "string",
+					"default": "",
+					"description": "The team that owns the application."
+				},
+				"Description": {
+					"type": "string",
+					"default": "",
+					"description": "Description of the application."
+				},
+				"URLPath": {
+					"type": "string",
+					"default": "",
+					"description": "Relative URL path of the application, starting from the hostname."
+				},
+				"IconHash": {
+					"type": "string",
+					"default": "",
+					"description": "Hash of the application icon. Can be used to detect changes in the application icon."
+				},
+				"IconURL": {
+					"type": "string",
+					"default": "",
+					"description": "The URL for the application icon."
+				},
+				"IsSystem": {
+					"type": "boolean",
+					"example": false,
+					"description": "Indicates if the application is a built-in component of the AgilePlatform (e.g. ServiceCenter, LifeTime, ...)."
+				},
+				"AppStatusInEnvs": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/AppStatusInEnv"
+					},
+					"description": "Information about the status of the application in each environment it is running."
+				}
+			},
+			"required": ["Key"]
+		},
+		"ApplicationConflict": {
+			"description": "A depoyment conflict.",
+			"type": "object",
+			"properties": {
+				"Message": {
+					"type": "string",
+					"default": "",
+					"description": "Description of the conflict."
+				},
+				"ProducerApplicationOperation": {
+					"$ref": "#/definitions/ApplicationOperation"
+				},
+				"ConsumerApplicationOperation": {
+					"$ref": "#/definitions/ApplicationOperation"
+				},
+				"ModuleConflict": {
+					"$ref": "#/definitions/ModuleConflict"
+				}
+			}
+		},
+		"ApplicationOperation": {
+			"description": "Operation executed in the deployment over the application.",
+			"type": "object",
+			"properties": {
+				"ApplicationKey": {
+					"type": "string",
+					"default": "",
+					"description": "Application unique identifier."
+				},
+				"ApplicationVersionKey": {
+					"type": "string",
+					"default": "",
+					"description": "Application Version unique identifier."
+				},
+				"DeploymentOperation": {
+					"type": "string",
+					"default": "",
+					"description": "Label of the operation to be performed. Example: Deploy 1.5."
+				}
+			}
+		},
+		"ApplicationVersion": {
+			"description": "Information about a specific version of an application and the versions of its modules.",
+			"type": "object",
+			"properties": {
+				"Key": {
+					"type": "string",
+					"default": "",
+					"description": "Application version unique identifier."
+				},
+				"ApplicationKey": {
+					"type": "string",
+					"default": "",
+					"description": "Application unique identifier."
+				},
+				"Version": {
+					"type": "string",
+					"default": "",
+					"description": "Version of the application."
+				},
+				"MobileVersions": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/MobileVersion"
+					},
+					"description": "List of mobile versions."
+				},
+				"PrimaryColor": {
+					"type": "string",
+					"default": "",
+					"description": "The primary color of the application interface."
+				},
+				"NativeHash": {
+					"type": "string",
+					"default": "",
+					"description": "The native has relative to the mobile platform."
+				},
+				"ModuleVersions": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/ModuleVersion"
+					},
+					"description": "List of module versions."
+				}
+			},
+			"required": ["Key"]
+		},
+		"ApplicationVersionCreate": {
+			"description": "A structure holding the new version name for the application and for its native applications, if applicable.",
+			"type": "object",
+			"properties": {
+				"ChangeLog": {
+					"type": "string",
+					"default": "",
+					"description": "Change log of the version to be created."
+				},
+				"Version": {
+					"type": "string",
+					"default": "",
+					"description": "Version of the application."
+				},
+				"MobileVersions": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/MobileVersion"
+					},
+					"description": "List of mobile versions."
+				},
+				"ModuleVersionKeys": {
+					"type": "array",
+					"items": {
+						"type": "string",
+						"default": ""
+					},
+					"description": "List of module version keys to validate if the current state of the application is still the expected."
+				}
+			}
+		},
+		"ApplicationVersionKeyRecord": {
+			"description": "",
+			"type": "object",
+			"properties": {
+				"ApplicationVersionKey": {
+					"type": "string",
+					"default": "",
+					"description": "The key of the newly created application version."
+				}
+			},
+			"required": ["ApplicationVersionKey"]
+		},
+		"AppStatusInEnv": {
+			"description": "Status of application in a given environment.",
+			"type": "object",
+			"properties": {
+				"EnvironmentKey": {
+					"type": "string",
+					"default": "",
+					"description": "Environment unique identifier."
+				},
+				"BaseApplicationVersionKey": {
+					"type": "string",
+					"default": "",
+					"description": "Base application version unique identifier. If app is not modified in environment, this is the application version deployed."
+				},
+				"IsModified": {
+					"type": "boolean",
+					"example": false,
+					"description": "True if the application has been changed since the last tag, false otherwise."
+				},
+				"IsModifiedReason": {
+					"type": "string",
+					"default": "",
+					"description": "Indicates the application status."
+				},
+				"IsModifiedMessage": {
+					"type": "string",
+					"default": "",
+					"description": "Indicates the application status."
+				},
+				"ConsistencyStatus": {
+					"type": "string",
+					"default": "",
+					"description": "Indicates the application consistency status."
+				},
+				"ConsistencyStatusMessages": {
+					"type": "string",
+					"default": "",
+					"description": "Messages regarding the consistency status of the application."
+				},
+				"MobileAppsStatus": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/MobileAppStatusInEnv"
+					},
+					"description": "Status of mobile apps in environment."
+				},
+				"ModuleStatusInEnvs": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/ModuleStatusInEnv"
+					},
+					"description": "Status of modules in environment."
+				}
+			}
+		},
+		"Deployment": {
+			"description": "Deployment information with the operations executed.",
+			"type": "object",
+			"properties": {
+				"Key": {
+					"type": "string",
+					"default": "",
+					"description": "Deployment unique identifier."
+				},
+				"SourceEnvironmentKey": {
+					"type": "string",
+					"default": "",
+					"description": "Source environment unique identifier."
+				},
+				"TargetEnvironmentKey": {
+					"type": "string",
+					"default": "",
+					"description": "Target environment unique identifier."
+				},
+				"Notes": {
+					"type": "string",
+					"default": "",
+					"description": "Deployment notes."
+				},
+				"CreatedOn": {
+					"type": "string",
+					"format": "date-time",
+					"example": "2014-12-31T23:59:59.938Z",
+					"description": "Date and time when the deployment plan was created."
+				},
+				"CreatedBy": {
+					"type": "string",
+					"default": "",
+					"description": "Name of the user who created the deployment plan."
+				},
+				"CreatedByUsername": {
+					"type": "string",
+					"default": "",
+					"description": "Username of the user who created the deployment plan."
+				},
+				"SavedOn": {
+					"type": "string",
+					"format": "date-time",
+					"example": "2014-12-31T23:59:59.938Z",
+					"description": "The date and time when the deployment plan was saved."
+				},
+				"SavedBy": {
+					"type": "string",
+					"default": "",
+					"description": "Name of the user who last saved the deployment plan."
+				},
+				"SavedByUsername": {
+					"type": "string",
+					"default": "",
+					"description": "Username of the user who last saved the deployment plan."
+				},
+				"StartedOn": {
+					"type": "string",
+					"format": "date-time",
+					"example": "2014-12-31T23:59:59.938Z",
+					"description": "The date and time when the deployment started."
+				},
+				"StartedBy": {
+					"type": "string",
+					"default": "",
+					"description": "Name of the user who started the deployment."
+				},
+				"StartedByUsername": {
+					"type": "string",
+					"default": "",
+					"description": "Username of the user who started the deployment."
+				},
+				"AbortedOn": {
+					"type": "string",
+					"format": "date-time",
+					"example": "2014-12-31T23:59:59.938Z",
+					"description": "The date and time when the deployment was aborted."
+				},
+				"AbortedBy": {
+					"type": "string",
+					"default": "",
+					"description": "Name of the user who aborted the deployment."
+				},
+				"AbortedByUsername": {
+					"type": "string",
+					"default": "",
+					"description": "Username of the user who aborted the deployment."
+				},
+				"ApplicationsVersionKeys": {
+					"type": "array",
+					"items": {
+						"type": "string",
+						"default": ""
+					},
+					"description": "List of Application Versions included in the deployment."
+				}
+			}
+		},
+		"DeploymentApplicationConflictsRecord": {
+			"description": "",
+			"type": "object",
+			"properties": {
+				"Deployment": {
+					"$ref": "#/definitions/Deployment"
+				},
+				"ApplicationConflicts": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/ApplicationConflict"
+					},
+					"description": "List of conflicts between applications in the deployment."
+				}
+			},
+			"required": ["Deployment",
+			"ApplicationConflicts"]
+		},
+		"DeploymentMessage": {
+			"description": "Message from a deployment operation log.",
+			"type": "object",
+			"properties": {
+				"Instant": {
+					"type": "string",
+					"format": "date-time",
+					"example": "2014-12-31T23:59:59.938Z",
+					"description": "Date and time when the message was logged."
+				},
+				"Message": {
+					"type": "string",
+					"default": "",
+					"description": "Details of the message."
+				}
+			}
+		},
+		"DeploymentStatusDeploymentLogRecord": {
+			"description": "",
+			"type": "object",
+			"properties": {
+				"DeploymentStatus": {
+					"type": "string",
+					"default": "",
+					"description": "Status of the deployment. [saved | running | needs_user_intervention | aborted | aborting | finished_successful | finished_with_warnings | finished_with_errors]"
+				},
+				"DeploymentLog": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/DeploymentMessage"
+					},
+					"description": "List of deployment messages."
+				}
+			},
+			"required": ["DeploymentStatus",
+			"DeploymentLog"]
+		},
+		"DownloadLink": {
+			"description": "The link for the application binary file.",
+			"type": "object",
+			"properties": {
+				"url": {
+					"type": "string",
+					"default": "",
+					"description": "The link for the application binary file.\n"
+				},
+				"expires": {
+					"type": "string",
+					"format": "date-time",
+					"example": "2014-12-31T23:59:59.938Z",
+					"description": "The expiration date and time of the returned link."
+				}
+			}
+		},
+		"Environment": {
+			"description": "An environment and its information.",
+			"type": "object",
+			"properties": {
+				"Key": {
+					"type": "string",
+					"default": "",
+					"description": "Unique identifier of the environment."
+				},
+				"Name": {
+					"type": "string",
+					"default": "",
+					"description": "Name of the environment."
+				},
+				"OSVersion": {
+					"type": "string",
+					"default": "",
+					"description": "Platform Server version. [X.X.X.X]"
+				},
+				"Order": {
+					"type": "integer",
+					"example": 0,
+					"format": "int32",
+					"description": "The order of the environment as registered in Lifetime."
+				},
+				"HostName": {
+					"type": "string",
+					"default": "",
+					"description": "Hostname of the environment as registered."
+				},
+				"UseHTTPS": {
+					"type": "boolean",
+					"example": false,
+					"description": "Indicates if connections to the environment are made using HTTPS."
+				},
+				"EnvironmentType": {
+					"type": "string",
+					"default": "",
+					"description": "Indicates the type of the environment. [Development | Test | Production]"
+				},
+				"NumberOfFrontEnds": {
+					"type": "integer",
+					"example": 0,
+					"format": "int32",
+					"description": "Number of front-end servers in the environment."
+				},
+				"ApplicationServerType": {
+					"type": "string",
+					"default": "",
+					"description": "Stack of the application server. [.NET | JAVA]"
+				},
+				"ApplicationServer": {
+					"type": "string",
+					"default": "",
+					"description": "Application server in use. [IIS | JBoss | WebLogic]"
+				},
+				"DatabaseProvider": {
+					"type": "string",
+					"default": "",
+					"description": "Type of database provider. [SqlServer | Oracle]"
+				},
+				"IsCloudEnvironment": {
+					"type": "boolean",
+					"example": false,
+					"description": "Indicates if the environment is running on a cloud service."
+				}
+			}
+		},
+		"MobileAppStatusInEnv": {
+			"description": "Status of mobile application in a given environment.",
+			"type": "object",
+			"properties": {
+				"EnvironmentKey": {
+					"type": "string",
+					"default": "",
+					"description": "Environment unique identifier."
+				},
+				"NativePlatform": {
+					"type": "string",
+					"default": "",
+					"description": "Name of native platform. [Android | iOS]"
+				},
+				"VersionNumber": {
+					"type": "string",
+					"default": "",
+					"description": "The version number, like for example 1.5.4, of the native build. It is used to be able to map the version to the version in the Andoid or iOS store."
+				},
+				"HasBinaryAvailable": {
+					"type": "boolean",
+					"example": false,
+					"description": "True if the binary of the application is available for the current configuration."
+				},
+				"IsConfigured": {
+					"type": "boolean",
+					"example": false,
+					"description": "True if the application is configured."
+				},
+				"IsConfigurationChanged": {
+					"type": "boolean",
+					"example": false,
+					"description": "True if the configuration of the Mobile Application has changed in the environment."
+				},
+				"IsModified": {
+					"type": "boolean",
+					"example": false,
+					"description": "True if the Native Hash of the Mobile Application does not match the one in the AppVersionNativeBuild baseline."
+				}
+			}
+		},
+		"MobileVersion": {
+			"description": "A mobile version and its information.",
+			"type": "object",
+			"properties": {
+				"NativePlatform": {
+					"type": "string",
+					"default": "",
+					"description": "Name of native platform. [Android | iOS]"
+				},
+				"VersionNumber": {
+					"type": "string",
+					"default": "",
+					"description": "The version number, like for example 1.5.4, of the native build. It is used to be able to map the version to the version in the Andoid or iOS store."
+				},
+				"VersionDescription": {
+					"type": "string",
+					"default": "",
+					"description": "The description of the mobile version."
+				}
+			}
+		},
+		"Module": {
+			"description": "Module information and the status in the environments where the modules are running.",
+			"type": "object",
+			"properties": {
+				"Key": {
+					"type": "string",
+					"default": "",
+					"description": "Module unique identifier."
+				},
+				"Name": {
+					"type": "string",
+					"default": "",
+					"description": "Name of the module."
+				},
+				"Description": {
+					"type": "string",
+					"default": "",
+					"description": "Description of the module."
+				},
+				"Kind": {
+					"type": "string",
+					"default": "",
+					"description": "Module type (eSpace or Extension)."
+				},
+				"ModuleStatusInEnv": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/ModuleStatusInEnv"
+					},
+					"description": "Status of the module in environments"
+				}
+			}
+		},
+		"ModuleConflict": {
+			"description": "A module conflict.",
+			"type": "object",
+			"properties": {
+				"ProducerModuleKey": {
+					"type": "string",
+					"default": "",
+					"description": "Producer Module unique identifier."
+				},
+				"ConsumerModuleKey": {
+					"type": "string",
+					"default": "",
+					"description": "Consumer Module unique identifier."
+				},
+				"TotalRequiredElements": {
+					"type": "integer",
+					"example": 0,
+					"format": "int32",
+					"description": "Total number of required elements."
+				},
+				"ConflictType": {
+					"type": "string",
+					"default": "",
+					"description": "Type of conflict. [Producer Module Missing|Producer Element Missing|Producer Element Incompatible|Consumer Module Outdated|Newer Producer Module Available|IncompatiblePlatformServer|ConsumerModuleMoved|ProducerModuleMoved|NameColision]"
+				}
+			}
+		},
+		"ModuleElement": {
+			"description": "Element version information, such as action, entity, structure, among others.",
+			"type": "object",
+			"properties": {
+				"Key": {
+					"type": "string",
+					"default": "",
+					"description": "Module element unique identifier."
+				},
+				"Name": {
+					"type": "string",
+					"default": "",
+					"description": "Name of the element as specified by the developer."
+				},
+				"ElementType": {
+					"type": "string",
+					"default": "",
+					"description": "Type of the element, such as action, entity, structure."
+				},
+				"CompatibilitySignatureHash": {
+					"type": "string",
+					"default": "",
+					"description": "Hash of the element signature. Can be used to validate if the element version is compatible with another version, not producing a broken reference)."
+				},
+				"FullSignatureHash": {
+					"type": "string",
+					"default": "",
+					"description": "Hash of the element. Can be used to uniquely identify an element version."
+				},
+				"ModuleKey": {
+					"type": "string",
+					"default": "",
+					"description": "Unique identifier of the module where the element is publicly supplied, among others."
+				}
+			}
+		},
+		"ModuleStatusInEnv": {
+			"description": "Status of module in a given environment.",
+			"type": "object",
+			"properties": {
+				"ApplicationKey": {
+					"type": "string",
+					"default": "",
+					"description": "Application unique identifier."
+				},
+				"EnvironmentKey": {
+					"type": "string",
+					"default": "",
+					"description": "Environment unique identifier."
+				},
+				"ModuleVersionKey": {
+					"type": "string",
+					"default": "",
+					"description": "Module version unique identifier."
+				},
+				"ConsistencyStatus": {
+					"type": "string",
+					"default": "",
+					"description": "Indicates the module consistency status."
+				},
+				"ConsistencyStatusMessages": {
+					"type": "string",
+					"default": "",
+					"description": "Messages regarding the consistency status of the module."
+				}
+			}
+		},
+		"ModuleVersion": {
+			"description": "A module version and its information.",
+			"type": "object",
+			"properties": {
+				"Key": {
+					"type": "string",
+					"default": "",
+					"description": "Module version unique identifier."
+				},
+				"ModuleKey": {
+					"type": "string",
+					"default": "",
+					"description": "Module unique identifier."
+				},
+				"CreatedOn": {
+					"type": "string",
+					"format": "date-time",
+					"example": "2014-12-31T23:59:59.938Z",
+					"description": "Date and time of the module version creation."
+				},
+				"CreatedBy": {
+					"type": "string",
+					"default": "",
+					"description": "Name of the user that created the version."
+				},
+				"CreatedByUsername": {
+					"type": "string",
+					"default": "",
+					"description": "Username of the user that created the version."
+				},
+				"GeneralHash": {
+					"type": "string",
+					"default": "",
+					"description": "Non-unique hash of the module version. Can be used to validate if two module versions have semantic differences."
+				},
+				"DirectUpgradeFromHash": {
+					"type": "string",
+					"default": "",
+					"description": "If this module version is the result of a direct upgrade of another version, then this field contains the key of that version"
+				},
+				"PublicElements": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/ModuleElement"
+					},
+					"description": "List of module elements exposed by module version."
+				},
+				"ConsumedElements": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/ModuleElement"
+					},
+					"description": "List of module elements consumed by module version."
+				}
+			}
+		},
+		"NotesSourceEnvironmentKeyTargetEnvironmentKeyApplicationVersionKeysRecord": {
+			"description": "",
+			"type": "object",
+			"properties": {
+				"Notes": {
+					"type": "string",
+					"default": "",
+					"description": "Deployment notes."
+				},
+				"SourceEnvironmentKey": {
+					"type": "string",
+					"default": "",
+					"description": "Source environment unique identifier."
+				},
+				"TargetEnvironmentKey": {
+					"type": "string",
+					"default": "",
+					"description": "Target environment unique identifier."
+				},
+				"ApplicationVersionKeys": {
+					"type": "array",
+					"items": {
+						"type": "string",
+						"default": ""
+					},
+					"description": "List of Application Versions included in the deployment."
+				}
+			},
+			"required": ["Notes",
+			"SourceEnvironmentKey",
+			"TargetEnvironmentKey",
+			"ApplicationVersionKeys"]
+		}
+	},
+	"tags": [{
+		"name": "v1"
+	}]
+}
