@@ -1,0 +1,62 @@
+{
+    "id": "77317352-4602-401c-ad6f-a7f437d4b953",
+    "name": "outsystemsreleasetask",
+    "friendlyName": "Outsystems Release Task",
+    "description": "Outsystems Release Task",
+    "helpMarkDown": "[More Information](https://aka.ms/outsystems)",
+    "category": "Deploy",
+    "visibility": [
+        "Release"
+    ],
+    "author": "João Almeida",
+    "version": {
+        "Major": 6,
+        "Minor": 12,
+        "Patch": 0
+    },
+    "demands": [],
+    "minimumAgentVersion": "1.99.0",
+    "groups": [
+        {
+            "name": "osplatform",
+            "displayName": "Outsystems Deploy",
+            "isExpanded": true
+        }
+    ],
+    "inputs": [
+        {
+            "name": "outsystemsServiceEndpoint",
+            "type": "connectedService:Outsystems",
+            "label": "Outsystems Service Connection",
+            "required": true,
+            "helpMarkDown": "Select a Outsystems service connection."
+        },
+        {
+            "name": "outsystemsApplication",
+            "type": "picklist",
+            "label": "Application",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Select the application to deploy.",
+            "groupName": "osplatform"
+        }
+    ],
+    "dataSourceBindings": [
+        {
+            "target": "outsystemsApplication",
+            "endpointId": "$(outsystemsServiceEndpoint)",
+            "dataSourceName": "osLifetimeApps",
+            "resultTemplate": "{ \"Value\" : \"{{{Key}}}\", \"DisplayValue\" : \"{{{Name}}}\" }"
+        }
+    ],
+    "instanceNameFormat": "Deploy Outsystems App:$(outsystemsApplication)",
+    "execution": {
+        "Node": {
+            "target": "ostask.js"
+        }
+    },
+    "messages": {
+        "OSNotDetected": "Outsystems Platform not detected (unable to reach url)",
+        "OSFailed": "Outsystems failed with error: %s"
+    }
+}

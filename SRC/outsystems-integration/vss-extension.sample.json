@@ -1,0 +1,71 @@
+{
+    "manifestVersion": 1,
+    "id": "outsystems-integration",
+    "version": "0.0.7",
+    "name": "OutSystems Integration",
+    "scopes": [],
+    "description": "OutSystems Platform Integration",
+    "publisher": "joalmeid",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "service-endpoint",
+            "description": "Service Endpoint type for Fabrikam connections",
+            "type": "ms.vss-endpoint.service-endpoint-type",
+            "targets": [
+                "ms.vss-endpoint.endpoint-types"
+            ],
+            "properties": {
+                "name": "fabrikam",
+                "displayName": "Fabrikam server connection",
+                "url": {
+                    "displayName": "Server Url",
+                    "helpText": "Url for the Fabrikam server to connect to."
+                },
+                "dataSources": [
+                    {
+                        "name": "Fabrikam Projects",
+                        "endpointUrl": "{{endpoint.url}}api/projects/index",
+                        "resultSelector": "jsonpath:$[*].nm"
+                    }
+                ],
+                "authenticationSchemes": [
+                    {
+                        "type": "ms.vss-endpoint.endpoint-auth-scheme-token"
+                    },
+                    {
+                        "type": "ms.vss-endpoint.endpoint-auth-scheme-basic",
+                        "inputDescriptors": [
+                            {
+                                "id": "username",
+                                "name": "Username",
+                                "description": "Username",
+                                "inputMode": "textbox",
+                                "validation": {
+                                    "isRequired": false,
+                                    "dataType": "string"
+                                }
+                            },
+                            {
+                                "id": "password",
+                                "name": "Password",
+                                "description": "Password",
+                                "inputMode": "passwordbox",
+                                "isConfidential": true,
+                                "validation": {
+                                    "isRequired": false,
+                                    "dataType": "string"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "helpMarkDown": "<a href=\"url-to-documentation\" target=\"_blank\"><b>Learn More</b></a>"
+            }
+        }
+    ]
+}

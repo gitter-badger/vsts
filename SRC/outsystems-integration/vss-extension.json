@@ -1,0 +1,139 @@
+{
+    "manifestVersion": 1,
+    "id": "outsystems-integration",
+    "version": "0.0.38",
+    "name": "OutSystems Integration",
+    "scopes": [],
+    "description": "OutSystems Platform Integration",
+    "publisher": "joalmeid",
+    "galleryFlags": [
+        "Preview"
+    ],
+    "files": [
+        {
+            "path": "outsystems-task"
+        }
+    ],
+    "icons": {
+        "default": "static/images/logo.png"
+    },
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "demands": [
+        "api-version/3.0"
+    ],
+    "tags": [
+        "Outsystems"
+    ],
+    "categories": [
+        "Integrate"
+    ],
+    "screenshots": [
+        {
+            "path": "static/images/outsystems-release-task-catalog.png"
+        },
+        {
+            "path": "static/images/outsystems-release-task-ui.png"
+        },
+        {
+            "path": "static/images/outsystems-release-task-ui-detail.png"
+        },
+        {
+            "path": "static/images/outsystems-service-endpoint-fullscreen.png"
+        }
+    ],
+    "content": {
+        "license": {
+            "path": "license.md"
+        },
+        "details": {
+            "path": "overview.md"
+        }
+    },
+    "links": {
+        "getstarted": {
+            "uri": "https://aka.ms/outsystems"
+        },
+        "support": {
+            "uri": "https://aka.ms/outsystems"
+        },
+        "issues": {
+            "uri": "https://aka.ms/outsystems"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://aka.ms/outsystems"
+    },
+    "branding": {
+        "color": "rgb(204, 34, 0)",
+        "theme": "dark"
+    },
+    "contributions": [
+        {
+            "id": "outsystems-task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "type": "ms.vss-distributed-task.task",
+            "properties": {
+                "name": "outsystems-task"
+            }
+        },
+        {
+            "id": "outsystems-service-endpoint",
+            "description": "Service Endpoint type for OutSystems Platform connections",
+            "type": "ms.vss-endpoint.service-endpoint-type",
+            "targets": [
+                "ms.vss-endpoint.endpoint-types"
+            ],
+            "properties": {
+                "name": "outsystems",
+                "displayName": "Outsystems Platform",
+                "url": {
+                    "displayName": "Server Url",
+                    "helpText": "Url for the Outsystems Lifetime to connect to."
+                },
+                "dataSources": [
+                    {
+                        "name": "TestConnection",
+                        "endpointUrl": "{{endpoint.url}}lifetimeapi/rest/v1/applications",
+                        "resultSelector": "jsonpath:$[*].Key"
+                    },
+                    {
+                        "name": "OSLifetimeApps",
+                        "endpointUrl": "{{endpoint.url}}lifetimeapi/rest/v1/applications",
+                        "resultSelector": "jsonpath:$[*]"
+                    },
+                    {
+                        "name": "OSLifetimeMultipleApps",
+                        "endpointUrl": "{{endpoint.url}}lifetimeapi/rest/v1/applications",
+                        "resultSelector": "jsonpath:$[*]"
+                    }
+                ],
+                "inputDescriptors": [
+                    {
+                        "id": "acceptUntrustedCerts",
+                        "name": "i18n:Accept untrusted SSL certificates",
+                        "description": "i18n:Allows the Outsystems Platform clients to accept self-signed SSL server certificates.",
+                        "inputMode": "checkbox",
+                        "isConfidential": false,
+                        "validation": {
+                            "isRequired": false,
+                            "dataType": "boolean"
+                        }
+                    }
+                ],
+                "authenticationSchemes": [
+                    {
+                        "type": "ms.vss-endpoint.endpoint-auth-scheme-token"
+                    }
+                ],
+                "helpMarkDown": "<a href=\"https://aka.ms/outsystems\" target=\"_blank\"><b>Learn More</b></a>"
+            }
+        }
+    ]
+}

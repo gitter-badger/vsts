@@ -1,0 +1,27 @@
+
+THIRD-PARTY SOFTWARE NOTICES AND INFORMATION
+Do Not Translate or Localize
+
+//TODO:ADD-3RD-PARTY-NOTICES-HERE
+
+
+---------------------------------------- START OF THIRD PARTY NOTICE -----------------------------------------
+
+Outsystems logo
+
+
+
+These images are also available in various sizes and SVG formats online, or as a zip file, https://www.outsystems.com/Logos
+
+These are licensed under the <license name>, <license url>
+
+Under the terms of this license, you must include an attribution to the Jenkins project, with a link (https://www.outsystems.com), if you display these logos or derivates thereof.
+
+
+
+Credits
+
+Thanks to Outsystems, namely António Barros (antonio.barros@outsystems.com), João Brandão Rodrigues (joaobrandao.rodrigues@outsystems.com), João Batista (joao.batista@outsystems.com), João Bento (joao.bento@outsystems.com) and Gonçalo Borrega (goncalo.borrega@outsystems.com) for all the technical help on Outsystems platform, branding assets and documentation!
+
+
+--------------------------------------- END OF THIRD PARTY NOTICE --------------------------------------------
