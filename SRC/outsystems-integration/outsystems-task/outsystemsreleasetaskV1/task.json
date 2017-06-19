@@ -12,17 +12,10 @@
     "version": {
         "Major": 1,
         "Minor": 1,
-        "Patch": 6
+        "Patch": 11
     },
     "demands": [],
     "minimumAgentVersion": "1.99.0",
-    "groups": [
-        {
-            "name": "osplatform",
-            "displayName": "Outsystems Deploy",
-            "isExpanded": true
-        }
-    ],
     "inputs": [
         {
             "name": "outsystemsServiceEndpoint",
@@ -30,6 +23,23 @@
             "label": "Outsystems Service Connection",
             "required": true,
             "helpMarkDown": "Select a Outsystems service connection."
+        },
+        {
+            "name": "outsystemsDeployPlanOption",
+            "type": "boolean",
+            "label": "New Deploy Plan?",
+            "defaultValue": false,
+            "required": true,
+            "helpMarkDown": "Should the task create a new Outsystems Deployment Plan?"
+        },
+        {
+            "name": "outsystemsExistingDeployPlan",
+            "type": "pickList",
+            "label": "Existing Plan",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The name of the existing Outsystems Deployment Plan to be created.",
+            "visibleRule": "outsystemsDeployPlanOption = false"
         },
         {
             "name": "outsystemsApplication",
@@ -44,7 +54,39 @@
                 "EditableOptions": "false",
                 "PopulateDefaultValue": "true"
             },
-            "groupName": "osplatform"
+            "visibleRule": "outsystemsDeployPlanOption = true"
+        },
+        {
+            "name": "outsystemsDeployNotes",
+            "type": "string",
+            "label": "Deploy Notes",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Outsystems Deployment Plan Notes.",
+            "properties": {
+                "resizable": "true",
+                "rows": "4"
+            },
+            "visibleRule": "outsystemsDeployPlanOption = true"
+        },
+        {
+            "name": "outsystemsSourceEnvironment",
+            "type": "pickList",
+            "label": "Source Environment",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Select the source environment for this deployment.",
+            "visibleRule": "outsystemsDeployPlanOption = true"
+            //"groupName": "os-new-deploy-plan"
+        },
+        {
+            "name": "outsystemsTargetEnvironment",
+            "type": "pickList",
+            "label": "Target Environment",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Select the target environment for this deployment.",
+            "visibleRule": "outsystemsDeployPlanOption = true"
         }
     ],
     "dataSourceBindings": [
@@ -52,6 +94,33 @@
             "target": "outsystemsApplication",
             "endpointId": "$(outsystemsServiceEndpoint)",
             "dataSourceName": "OSLifetimeApps",
+            "parameters": {
+                "OutsystemsEndpoint": "$(outsystemsServiceEndpoint)"
+            },
+            "resultTemplate": "{ \"Value\" : \"{{{Key}}}\", \"DisplayValue\" : \"{{{Name}}}\" }"
+        },
+        {
+            "target": "outsystemsExistingDeployPlan",
+            "endpointId": "$(outsystemsServiceEndpoint)",
+            "dataSourceName": "osLifetimeDeployments",
+            "parameters": {
+                "OutsystemsEndpoint": "$(outsystemsServiceEndpoint)"
+            },
+            "resultTemplate": "{ \"Value\" : \"{{{Key}}}\", \"DisplayValue\" : \"{{{Notes}}}\" }"
+        },
+        {
+            "target": "outsystemsSourceEnvironment",
+            "endpointId": "$(outsystemsServiceEndpoint)",
+            "dataSourceName": "osLifetimeEnvironments",
+            "parameters": {
+                "OutsystemsEndpoint": "$(outsystemsServiceEndpoint)"
+            },
+            "resultTemplate": "{ \"Value\" : \"{{{Key}}}\", \"DisplayValue\" : \"{{{Name}}}\" }"
+        },
+        {
+            "target": "outsystemsTargetEnvironment",
+            "endpointId": "$(outsystemsServiceEndpoint)",
+            "dataSourceName": "osLifetimeEnvironments",
             "parameters": {
                 "OutsystemsEndpoint": "$(outsystemsServiceEndpoint)"
             },

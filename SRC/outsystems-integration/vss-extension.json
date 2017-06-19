@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "outsystems-integration",
-    "version": "0.0.38",
+    "version": "0.0.45",
     "name": "OutSystems Integration",
     "scopes": [],
     "description": "OutSystems Platform Integration",
@@ -109,8 +109,23 @@
                         "resultSelector": "jsonpath:$[*]"
                     },
                     {
-                        "name": "OSLifetimeMultipleApps",
-                        "endpointUrl": "{{endpoint.url}}lifetimeapi/rest/v1/applications",
+                        "name": "OSLifetimeAppsVersions",
+                        "endpointUrl": "{{endpoint.url}}lifetimeapi/rest/v1/applications/{{appKey}}/versions?MaximumVersionsToReturn=1",
+                        "resultSelector": "jsonpath:$[*]"
+                    },
+                    {
+                        "name": "osLifetimeEnvironments",
+                        "endpointUrl": "{{endpoint.url}}lifetimeapi/rest/v1/environments",
+                        "resultSelector": "jsonpath:$[*]"
+                    },
+                    {
+                        "name": "osLifetimeDeployments",
+                        "endpointUrl": "{{endpoint.url}}lifetimeapi/rest/v1/deployments",
+                        "resultSelector": "jsonpath:$[*]"
+                    },
+                    {
+                        "name": "osLifetimeModules",
+                        "endpointUrl": "{{endpoint.url}}lifetimeapi/rest/v1/modules",
                         "resultSelector": "jsonpath:$[*]"
                     }
                 ],
