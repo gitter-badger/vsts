@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "outsystems-integration",
-    "version": "0.0.45",
+    "version": "0.0.48",
     "name": "OutSystems Integration",
     "scopes": [],
     "description": "OutSystems Platform Integration",
@@ -150,5 +150,5 @@
                 "helpMarkDown": "<a href=\"https://aka.ms/outsystems\" target=\"_blank\"><b>Learn More</b></a>"
             }
         }
-    ]
+   ]
 }
