@@ -37,7 +37,7 @@ export class AppStatusInEnv {
     /**
     * True if the application has been changed since the last tag, false otherwise.
     */
-    'isModified': boolean;
+    'IsModified': boolean;
     /**
     * Indicates the application status.
     */
@@ -61,7 +61,7 @@ export class AppStatusInEnv {
     /**
     * Status of modules in environment.
     */
-    'moduleStatusInEnvs': Array<ModuleStatusInEnv>;
+    'ModuleStatusInEnvs': Array<ModuleStatusInEnv>;
 }
 
 /**
@@ -75,7 +75,7 @@ export class Application {
     /**
     * Name of the application.
     */
-    'name': string;
+    'Name': string;
     /**
     * Identifies the kind of application. [Mobile|WebResponsive]
     */
@@ -107,7 +107,7 @@ export class Application {
     /**
     * Information about the status of the application in each environment it is running.
     */
-    'appStatusInEnvs': Array<AppStatusInEnv>;
+    'AppStatusInEnvs': Array<AppStatusInEnv>;
 }
 
 /**
@@ -533,7 +533,7 @@ export class ModuleStatusInEnv {
     /**
     * Module version unique identifier.
     */
-    'moduleVersionKey': string;
+    'ModuleVersionKey': string;
     /**
     * Indicates the module consistency status.
     */
