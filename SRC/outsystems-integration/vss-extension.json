@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "outsystems-integration",
-    "version": "0.0.84",
+    "version": "0.0.85",
     "name": "OutSystems Integration",
     "scopes": [],
     "description": "OutSystems Platform Integration",

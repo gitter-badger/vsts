@@ -643,10 +643,15 @@ export class ApiKeyAuth implements Authentication {
 
 export class OAuth implements Authentication {
     public accessToken: string;
+    public apiKey: string;
+
+    // constructor(private paramName: string) {
+    //     this.accessToken = paramName; 
+    // }
 
     applyToRequest(requestOptions: request.Options): void {
         if (requestOptions && requestOptions.headers) {
-            requestOptions.headers["Authorization"] = "Bearer " + this.accessToken;
+            requestOptions.headers["Authorization"] = "Bearer " + this.apiKey;
         }
     }
 }
@@ -660,18 +665,21 @@ export class VoidAuth implements Authentication {
 }
 
 export enum V1ApiApiKeys {
+    os_auth
 }
 
 export class V1Api {
     protected basePath = defaultBasePath;
-    protected defaultHeaders : any = //{};
-    {
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsaWZldGltZSIsInN1YiI6IllUWTFPVGs1T0RFdE5XWmtOUzAwWW1aa0xXSmhPR1F0TnpNd01EQmxaRFF5TXpsaCIsImF1ZCI6ImxpZmV0aW1lIiwiaWF0IjoiMTQ5NzIyMzc5OSIsImppdCI6InlNZkhaZnVMOHkifQ==.dmMX09hcZh3Hqa3oHFpFoZ9AZU2VjK35XArCgCCPaZ0='
-    };
+    protected defaultHeaders : any = {};
+    // {
+    //     'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsaWZldGltZSIsInN1YiI6IllUWTFPVGs1T0RFdE5XWmtOUzAwWW1aa0xXSmhPR1F0TnpNd01EQmxaRFF5TXpsaCIsImF1ZCI6ImxpZmV0aW1lIiwiaWF0IjoiMTQ5NzIyMzc5OSIsImppdCI6InlNZkhaZnVMOHkifQ==.dmMX09hcZh3Hqa3oHFpFoZ9AZU2VjK35XArCgCCPaZ0='
+    // };
+
     protected _useQuerystring : boolean = false;
 
     protected authentications = {
-        'default': <Authentication>new VoidAuth(),
+        'default': new VoidAuth(),
+        'os_auth': new OAuth()
     }
 
     constructor(basePath?: string);
@@ -693,6 +701,10 @@ export class V1Api {
 
     public setApiKey(key: V1ApiApiKeys, value: string) {
         this.authentications[V1ApiApiKeys[key]].apiKey = value;
+    }
+
+    set accessToken(token: string) {
+        this.authentications.os_auth.accessToken = token;
     }
     /**
      * 
@@ -1706,6 +1718,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {

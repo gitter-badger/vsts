@@ -32,9 +32,10 @@ export class TaskOptions {
         this.osServerEndpoint = tl.getInput('outsystemsServiceEndpoint', true);
         this.osServerEndpointUrl = url.resolve(tl.getEndpointUrl(this.osServerEndpoint, false), "lifetimeapi/rest/v1");
         this.osServerEndpointAuth = tl.getEndpointAuthorization(this.osServerEndpoint, false);
+ 
 
         tl.debug('serverEndpointUrl=' + this.osServerEndpointUrl);
-        tl.debug('osServerEndpointAuth.Parameters=' + tl.getEndpointAuthorizationParameter("outsystems", "apitoken", true));
+        tl.debug('osServerEndpointAuth.Parameters=' + tl.getEndpointAuthorizationParameter("outsystems", "apitoken", false));
         tl.debug('osServerEndpointAuth.Scheme=' + tl.getEndpointAuthorizationScheme("outsystems", true));
         //tl.debug('osServerEndpointAuth=' + JSON.stringify(this.osServerEndpointAuth));
 
@@ -68,7 +69,10 @@ async function doWork() {
 
         var taskOptions: TaskOptions = new TaskOptions();
 
+        let lifetimeTokenApi = new ltclt.OAuth();
         let lifetime = new ltclt.V1Api(taskOptions.osServerEndpointUrl);
+        lifetime.setApiKey(ltclt.V1ApiApiKeys.os_auth,  tl.getEndpointAuthorizationParameter("outsystems", "apitoken", false));
+
 
         let AppVersionStagingPublishingInterval = 5000;
         let MaximunAppVersionsToReturn = 120;
