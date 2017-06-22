@@ -12,7 +12,7 @@
     "version": {
         "Major": 1,
         "Minor": 1,
-        "Patch": 26
+        "Patch": 44
     },
     "demands": [],
     "minimumAgentVersion": "1.99.0",
@@ -39,12 +39,20 @@
             }
         },
         {
+            "name": "outsystemsTagAndDeploy",
+            "type": "boolean",
+            "label": "Tag and Deploy",
+            "defaultValue": true,
+            "required": true,
+            "helpMarkDown": "Should the task create a new Outsystems Deployment Plan?"
+        },
+        {
             "name": "outsystemsAppVersionName",
             "type": "string",
             "label": "Application Version",
             "defaultValue": "",
             "required": true,
-            "helpMarkDown": "Outsystems Application Version.",
+            "helpMarkDown": "Outsystems Application Version. Supported format is [Major].[Minor](.[Revision]). Consider taking advantage of VSTS variables like $(Release.ReleaseName) that you can define in General tab. Example: 0.0.$(rev:rr)",
             "properties": {
                 "resizable": "true",
                 "rows": "4"
@@ -102,6 +110,15 @@
             "resultTemplate": "{ \"Value\" : \"{{{Key}}}\", \"DisplayValue\" : \"{{{Name}}}\" }"
         },
         {
+            "target": "outsystemsExistingAppVersion",
+            "endpointId": "$(outsystemsServiceEndpoint)",
+            "dataSourceName": "OSLifetimeAppsVersions",
+            "parameters": {
+                "outsystemsApplication": "$(outsystemsApplication)"
+            },
+            "resultTemplate": "{ \"Value\" : \"{{{Key}}}\", \"DisplayValue\" : \"{{{Version}}}\" }"
+        },
+        {
             "target": "outsystemsSourceEnvironment",
             "endpointId": "$(outsystemsServiceEndpoint)",
             "dataSourceName": "osLifetimeEnvironments",
@@ -131,15 +148,12 @@
         "OSFailureAppNotModified": "The appication '%s' was not modified. Maybe syncronizing you environment will do.",
         "OSSuccessfulDeployment": "Deployment complete. Outsystems Status: %s.",
         "OSFailedDeployment": "Deployment unsuccessful. Check loggin and/or Outsystems Lifetime console",
-        "OSUnabletoMonitorProgress":"Unable to monitor Outsystems Lifetime Deployment progress. Last known state: %s.",
-
-
+        "OSUnabletoMonitorProgress": "Unable to monitor Outsystems Lifetime Deployment progress. Last known state: %s.",
         "OSNotDetected": "Outsystems Platform not detected (unable to reach url)",
         "OSFailed": "Outsystems failed with error: %s",
         "succeeded": "succeeded",
         "failed": "failed",
         "aborted": "aborted",
         "unknown": "unknown"
-        
     }
 }

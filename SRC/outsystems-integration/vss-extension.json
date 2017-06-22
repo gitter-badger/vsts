@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "outsystems-integration",
-    "version": "0.0.66",
+    "version": "0.0.84",
     "name": "OutSystems Integration",
     "scopes": [],
     "description": "OutSystems Platform Integration",
@@ -110,7 +110,7 @@
                     },
                     {
                         "name": "OSLifetimeAppsVersions",
-                        "endpointUrl": "{{endpoint.url}}lifetimeapi/rest/v1/applications/{{appKey}}/versions?MaximumVersionsToReturn=1",
+                        "endpointUrl": "{{endpoint.url}}lifetimeapi/rest/v1/applications/{{outsystemsApplication}}/versions?MaximumVersionsToReturn=20",
                         "resultSelector": "jsonpath:$[*]"
                     },
                     {

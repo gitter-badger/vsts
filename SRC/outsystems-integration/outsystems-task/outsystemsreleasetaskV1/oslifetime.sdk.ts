@@ -148,7 +148,7 @@ export class ApplicationVersion {
     /**
     * Application version unique identifier.
     */
-    'key': string;
+    'Key': string;
     /**
     * Application unique identifier.
     */
@@ -156,7 +156,7 @@ export class ApplicationVersion {
     /**
     * Version of the application.
     */
-    'version': string;
+    'Version': string;
     /**
     * List of mobile versions.
     */

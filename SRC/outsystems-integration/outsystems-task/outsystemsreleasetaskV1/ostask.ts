@@ -7,8 +7,6 @@ import url = require('url');
 
 // node js modules
 import ltclt = require('./oslifetime.sdk');
-// import osDeployPlan = require('./OutsystemsDeploymentPlan');
-// import OutsystemsDeploymentPlan = osDeployPlan.OutsystemsDeploymentPlan;
 
 import util = require('./util');
 
@@ -17,15 +15,14 @@ export class TaskOptions {
     osServerEndpointUrl: string;
     osServerEndpointAuth: tl.EndpointAuthorization;
 
-    osDeployPlanOption: boolean;   //outsystemsDeployPlanOption
-    osExistingDeployPlan: string;   //outsystemsExistingDeployPlan
     osApplication: string;  // outsystemsApplication
+    osTagAndDeploy: boolean; // outsystemsTagAndDeploy
+    osAppVersion: string; //outsystemsAppVersionName
+    osExistingAppVersion: string; //outsystemsExistingAppVersion
+    osChangeLog: string; //outsystemsDeployPlanChangeLog
     osNotes: string;   //outsystemsDeployNotes
     osSource: string;   //outsystemsSourceEnvironment
     osTarget: string;   //outsystemsTargetEnvironment
-
-    osChangeLog: string; //outsystemsDeployPlanChangeLog
-    osAppVersion: string; //outsystemsAppVersionName
 
     saveResultsTo: string;
     strictSSL: boolean;
@@ -37,24 +34,18 @@ export class TaskOptions {
         this.osServerEndpointAuth = tl.getEndpointAuthorization(this.osServerEndpoint, false);
 
         tl.debug('serverEndpointUrl=' + this.osServerEndpointUrl);
-        tl.debug('osServerEndpointAuth.Parameters=' + tl.getEndpointAuthorizationParameter("outsystems","apitoken",true));
-        tl.debug('osServerEndpointAuth.Scheme=' + tl.getEndpointAuthorizationScheme("outsystems",true));
+        tl.debug('osServerEndpointAuth.Parameters=' + tl.getEndpointAuthorizationParameter("outsystems", "apitoken", true));
+        tl.debug('osServerEndpointAuth.Scheme=' + tl.getEndpointAuthorizationScheme("outsystems", true));
         //tl.debug('osServerEndpointAuth=' + JSON.stringify(this.osServerEndpointAuth));
-        
 
         this.osApplication = tl.getInput('outsystemsApplication', true);
+        this.osTagAndDeploy = util.convertToBoolean(tl.getInput('outsystemsTagAndDeploy', true));
         this.osAppVersion = tl.getInput('outsystemsAppVersionName', true);
+        this.osExistingAppVersion = tl.getInput('outsystemsExistingAppVersion', false);
         this.osChangeLog = tl.getInput('outsystemsDeployPlanChangeLog', true);
         this.osNotes = tl.getInput('outsystemsDeployNotes', false);
         this.osSource = tl.getInput('outsystemsSourceEnvironment', true);
         this.osTarget = tl.getInput('outsystemsTargetEnvironment', true);
-
-        // tl.debug('outsystemsApplication=' + this.osApplication);
-        // tl.debug('outsystemsAppVersionName=' + this.osAppVersion);
-        // tl.debug('outsystemsDeployPlanChangeLog=' + this.osChangeLog);
-        // tl.debug('outsystemsDeployNotes=' + this.osNotes || "Not defined");
-        // tl.debug('outsystemsSourceEnvironment=' + this.osSource);
-        // tl.debug('outsystemsTargetEnvironment=' + this.osTarget);
 
         var resultsDirectory: string = tl.getVariable('Build.StagingDirectory');
         if (!resultsDirectory) {
@@ -62,8 +53,6 @@ export class TaskOptions {
             resultsDirectory = tl.getVariable('System.DefaultWorkingDirectory');
         }
 
-        //TEMP
-        //this.saveResultsTo = path.join(__dirname, 'outsystemsResults')
         this.saveResultsTo = path.join(resultsDirectory, 'outsystemsResults');
 
         this.strictSSL = ("true" !== tl.getEndpointDataParameter(this.osServerEndpoint, "acceptUntrustedCerts", true));
@@ -71,7 +60,9 @@ export class TaskOptions {
     }
 }
 
+
 async function doWork() {
+
     try {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
 
@@ -79,13 +70,29 @@ async function doWork() {
 
         let lifetime = new ltclt.V1Api(taskOptions.osServerEndpointUrl);
 
-        let tempDeployKey;
         let AppVersionStagingPublishingInterval = 5000;
-        let deployPlan: ltclt.NotesSourceEnvironmentKeyTargetEnvironmentKeyApplicationVersionKeysRecord = new ltclt.NotesSourceEnvironmentKeyTargetEnvironmentKeyApplicationVersionKeysRecord();
+        let MaximunAppVersionsToReturn = 120;
 
         lifetime.applicationsGet(taskOptions.osApplication, true, true)
+
             //MULTI APPS: lifetime.applicationsList(false,true)
-            .then((res) => {
+            .then((!taskOptions.osTagAndDeploy) ? (res) => {
+                
+                if(taskOptions.osAppVersion){
+                    //Not for Tag & Deploy and with osAppVersion
+                    return lifetime.applicationsVersionsList(taskOptions.osApplication,MaximunAppVersionsToReturn);
+                } 
+                else return CreateAndExecuteDeployPan(taskOptions, lifetime, [taskOptions.osExistingAppVersion]);
+            } : Promise.resolve())
+            .then(!taskOptions.osTagAndDeploy ? (res) => {
+                let appVersionList: Array<ltclt.ApplicationVersion> = res.body;
+                let existingAppVersion = appVersionList.find(item => { return item.Version == taskOptions.osAppVersion; });
+                taskOptions.osExistingAppVersion = existingAppVersion.Key;
+                
+                return CreateAndExecuteDeployPan(taskOptions, lifetime, [taskOptions.osExistingAppVersion]);
+
+            } : Promise.resolve())
+            .then(taskOptions.osTagAndDeploy ? (res) => {
                 let newApp: ltclt.Application = res.body;
 
                 let lastModified: ltclt.AppStatusInEnv = newApp.AppStatusInEnvs.find(item => { return item.IsModified === true; });
@@ -100,7 +107,7 @@ async function doWork() {
                     newAppVersion.version = taskOptions.osAppVersion;
                     tl.debug(`New App Version :` + JSON.stringify(newAppVersion));
 
-                    //Base Environment where to TAG versiion 
+                    //Base Environment where to TAG version 
                     return lifetime.environmentsApplicationsVersionsCreate(taskOptions.osSource, taskOptions.osApplication, newAppVersion);
                 }
                 else {
@@ -108,41 +115,18 @@ async function doWork() {
                     tl.setResult(tl.TaskResult.Failed, message);
                     throw new Error(message);
                 }
-            })
-            //New Deployment Plan
-            .delay(AppVersionStagingPublishingInterval).then((res) => {
+            } : Promise.resolve())
+            .delay(AppVersionStagingPublishingInterval).then(taskOptions.osTagAndDeploy ? (res) => {
                 // Application Version taskes time to be published in staging.
                 // Else DeploymentCreate throws "Failed to include application version in staging because it was never published in source environment '%s'".                
 
                 let newAppVersionKey: string = res.body.ApplicationVersionKey;
                 tl.debug(`newAppVersionKey = ${newAppVersionKey}`);
 
-                deployPlan.applicationVersionKeys = [newAppVersionKey];
-                if (taskOptions.osNotes == null) {
-                    let deployPlanTimestamp = new Date();
-                    taskOptions.osNotes || deployPlanTimestamp.getDate() + "-" + (deployPlanTimestamp.getMonth() + 1) + "-" + deployPlanTimestamp.getFullYear() + "-" + deployPlanTimestamp.getHours() + "-" + deployPlanTimestamp.getMinutes(); + `:${taskOptions.osSource}-${taskOptions.osTarget}'.`;
-                }
-                tl.debug(`Deployment Plan Note set to '${taskOptions.osNotes}'.`);
-                deployPlan.notes = taskOptions.osNotes;
-                deployPlan.sourceEnvironmentKey = taskOptions.osSource;
-                deployPlan.targetEnvironmentKey = taskOptions.osTarget;
-                tl.debug(`Deployment Plan :` + JSON.stringify(deployPlan));
+                //return lifetime.deploymentsCreate(deployPlan);
+                return CreateAndExecuteDeployPan(taskOptions, lifetime, [newAppVersionKey])
+            } : Promise.resolve())
 
-                return lifetime.deploymentsCreate(deployPlan);
-            })
-            .then((res) => {
-                tempDeployKey = res.body;
-                tl.debug(`tempDeployKey = ${tempDeployKey}`);
-
-                return lifetime.deploymentsExecuteCommand(tempDeployKey, util.osDeployPlanCommands.Start)
-            })
-            .then((res) => {
-                let deployCommandMessage: string = res.body.Errors[0];
-                let deployStatusCode = res.body.StatusCode;
-                tl.debug(`deployCommandMessage = ${deployCommandMessage}`);
-
-                return MonitorProgress(taskOptions, lifetime, tempDeployKey);
-            })
             .catch((err) => {
                 let taskMessage: string;
 
@@ -150,7 +134,7 @@ async function doWork() {
                     taskMessage = ` [${err.body.StatusCode}] ${err.body.Errors}`;
                     taskMessage = JSON.stringify(err); + taskMessage;
                 }
-                if(err.message){
+                if (err.message) {
                     taskMessage = ` ${err.message}`;
                 }
                 else taskMessage = taskMessage = JSON.stringify(err);
@@ -158,15 +142,7 @@ async function doWork() {
                 //let message = tl.loc('OSAppVersionAlreadyExists',somthing);
                 tl.error(taskMessage);
                 tl.setResult(tl.TaskResult.Failed, taskMessage);
-
             })
-            .finally(() => {
-                //let message = tl.loc('OSAppVersionAlreadyExists',somthing);
-                //console.error(taskMessage);
-                //tl.setResult(tl.TaskResult.Failed, tl.loc('CMakeFailed', err.message));
-                //console.log('Done! ');
-            });
-
 
     } catch (e) {
         tl.debug(e.message);
@@ -175,7 +151,82 @@ async function doWork() {
     }
 }
 
-async function MonitorProgress(taskOptopns: TaskOptions, lifetime: ltclt.V1Api, deployKey: string) {
+async function CreateNewApplicationVersion(taskOptions: TaskOptions, lifetime: ltclt.V1Api, appVersionStagingPublishingInterval: number) {
+
+    lifetime.applicationsGet(taskOptions.osApplication, true, true)
+        .then((res) => {
+            let newApp: ltclt.Application = res.body;
+
+            let lastModified: ltclt.AppStatusInEnv = newApp.AppStatusInEnvs.find(item => { return item.IsModified === true; });
+            if (lastModified) {
+                let newModuleVersionKey = lastModified.ModuleStatusInEnvs[0].ModuleVersionKey
+                tl.debug(`newModuleVersionKey = ${newModuleVersionKey}`);
+
+                let newAppVersion: ltclt.ApplicationVersionCreate = new ltclt.ApplicationVersionCreate();
+                newAppVersion.changeLog = taskOptions.osChangeLog;
+                newAppVersion.mobileVersions = new Array<ltclt.MobileVersion>();
+                newAppVersion.moduleVersionKeys = [newModuleVersionKey];
+                newAppVersion.version = taskOptions.osAppVersion;
+                tl.debug(`New App Version :` + JSON.stringify(newAppVersion));
+
+                //Base Environment where to TAG version 
+                return lifetime.environmentsApplicationsVersionsCreate(taskOptions.osSource, taskOptions.osApplication, newAppVersion);
+            }
+            else {
+                let message = tl.loc('OSFailureAppNotModified', newApp.Name);
+                tl.setResult(tl.TaskResult.Failed, message);
+                throw new Error(message);
+            }
+        })
+        .delay(appVersionStagingPublishingInterval).then((res) => {
+            // Application Version taskes time to be published in staging.
+            // Else DeploymentCreate throws "Failed to include application version in staging because it was never published in source environment '%s'".                
+
+            let newAppVersionKey: string = res.body.ApplicationVersionKey;
+            tl.debug(`newAppVersionKey = ${newAppVersionKey}`);
+
+            //return lifetime.deploymentsCreate(deployPlan);
+            return CreateAndExecuteDeployPan(taskOptions, lifetime, [newAppVersionKey])
+        });
+}
+
+async function CreateAndExecuteDeployPan(taskOptions: TaskOptions, lifetime: ltclt.V1Api, appVersionKeys: Array<string>) {
+
+    let deployPlan: ltclt.NotesSourceEnvironmentKeyTargetEnvironmentKeyApplicationVersionKeysRecord = new ltclt.NotesSourceEnvironmentKeyTargetEnvironmentKeyApplicationVersionKeysRecord();
+    let newDeployPlanKey;
+
+    deployPlan.applicationVersionKeys = appVersionKeys;
+    tl.debug(`ApplicationVersionKeys= ${deployPlan.applicationVersionKeys}`);
+
+    if (taskOptions.osNotes == null) {
+        let deployPlanTimestamp = new Date();
+        taskOptions.osNotes = taskOptions.osNotes || deployPlanTimestamp.getDate() + "-" + (deployPlanTimestamp.getMonth() + 1) + "-" + deployPlanTimestamp.getFullYear() + "-" + deployPlanTimestamp.getHours() + "-" + deployPlanTimestamp.getMinutes();
+    }
+    deployPlan.notes = taskOptions.osNotes;
+    tl.debug(`Deployment Plan Note set to '${taskOptions.osNotes}'.`);
+
+    deployPlan.sourceEnvironmentKey = taskOptions.osSource;
+    deployPlan.targetEnvironmentKey = taskOptions.osTarget;
+    tl.debug(`Deployment Plan :` + JSON.stringify(deployPlan));
+
+    lifetime.deploymentsCreate(deployPlan)
+        //New Deployment Plan
+        .then((res) => {
+            newDeployPlanKey = res.body;
+            tl.debug(`tempDeployKey = ${newDeployPlanKey}`);
+
+            return lifetime.deploymentsExecuteCommand(newDeployPlanKey, util.osDeployPlanCommands.Start)
+        })
+        .then((res) => {
+            let deployCommandMessage: string = res.body.Errors[0];
+            let deployStatusCode = res.body.StatusCode;
+            tl.debug(`deployCommandMessage = ${deployCommandMessage}`);
+
+            return MonitorProgress(lifetime, newDeployPlanKey);
+        });
+}
+
+async function MonitorProgress(lifetime: ltclt.V1Api, deployKey: string) {
 
     let intervalMillis = 1000;
     let completeFullLog: Array<string>;
@@ -194,12 +245,9 @@ async function MonitorProgress(taskOptopns: TaskOptions, lifetime: ltclt.V1Api, 
                     let deltaLog = curDeploylog.slice(deploylog.length, curDeploylog.length);
                     deploylog = curDeploylog;
 
-                    if (deltaLog.length > 0) {
-                        let deltaLogString: string = deltaLog.map((_log) => {
-                            return _log.Message;
-                        }).join("\r\n");
-                        tl.debug(`${deltaLogString}`);
-                    }
+                    deltaLog.forEach((entry) => {
+                        tl.debug(entry.Message);
+                    });
 
                     if (deployStatus == util.osDeploymentStatus.Running ||
                         deployStatus == util.osDeploymentStatus.Aborting) {
