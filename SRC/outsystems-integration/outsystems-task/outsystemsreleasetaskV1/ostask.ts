@@ -32,12 +32,6 @@ export class TaskOptions {
         this.osServerEndpoint = tl.getInput('outsystemsServiceEndpoint', true);
         this.osServerEndpointUrl = url.resolve(tl.getEndpointUrl(this.osServerEndpoint, false), "lifetimeapi/rest/v1");
         this.osServerEndpointAuth = tl.getEndpointAuthorization(this.osServerEndpoint, false);
- 
-
-        tl.debug('serverEndpointUrl=' + this.osServerEndpointUrl);
-        tl.debug('osServerEndpointAuth.Parameters=' + tl.getEndpointAuthorizationParameter("outsystems", "apitoken", false));
-        tl.debug('osServerEndpointAuth.Scheme=' + tl.getEndpointAuthorizationScheme("outsystems", true));
-        //tl.debug('osServerEndpointAuth=' + JSON.stringify(this.osServerEndpointAuth));
 
         this.osApplication = tl.getInput('outsystemsApplication', true);
         this.osTagAndDeploy = util.convertToBoolean(tl.getInput('outsystemsTagAndDeploy', true));
@@ -61,19 +55,16 @@ export class TaskOptions {
     }
 }
 
-
 async function doWork() {
 
     try {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
 
         var taskOptions: TaskOptions = new TaskOptions();
-
         let lifetimeTokenApi = new ltclt.OAuth();
         let lifetime = new ltclt.V1Api(taskOptions.osServerEndpointUrl);
-        lifetime.setApiKey(ltclt.V1ApiApiKeys.os_auth,  tl.getEndpointAuthorizationParameter("outsystems", "apitoken", false));
-
-
+        lifetime.setApiKey(ltclt.V1ApiApiKeys.os_auth, tl.getEndpointAuthorizationParameter(taskOptions.osServerEndpoint, "apitoken", false));
+        
         let AppVersionStagingPublishingInterval = 5000;
         let MaximunAppVersionsToReturn = 120;
 
@@ -81,18 +72,18 @@ async function doWork() {
 
             //MULTI APPS: lifetime.applicationsList(false,true)
             .then((!taskOptions.osTagAndDeploy) ? (res) => {
-                
-                if(taskOptions.osAppVersion){
+
+                if (taskOptions.osAppVersion) {
                     //Not for Tag & Deploy and with osAppVersion
-                    return lifetime.applicationsVersionsList(taskOptions.osApplication,MaximunAppVersionsToReturn);
-                } 
+                    return lifetime.applicationsVersionsList(taskOptions.osApplication, MaximunAppVersionsToReturn);
+                }
                 else return CreateAndExecuteDeployPan(taskOptions, lifetime, [taskOptions.osExistingAppVersion]);
             } : Promise.resolve())
             .then(!taskOptions.osTagAndDeploy ? (res) => {
                 let appVersionList: Array<ltclt.ApplicationVersion> = res.body;
                 let existingAppVersion = appVersionList.find(item => { return item.Version == taskOptions.osAppVersion; });
                 taskOptions.osExistingAppVersion = existingAppVersion.Key;
-                
+
                 return CreateAndExecuteDeployPan(taskOptions, lifetime, [taskOptions.osExistingAppVersion]);
 
             } : Promise.resolve())

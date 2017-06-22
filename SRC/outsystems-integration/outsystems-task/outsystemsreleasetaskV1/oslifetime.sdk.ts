@@ -670,12 +670,8 @@ export enum V1ApiApiKeys {
 
 export class V1Api {
     protected basePath = defaultBasePath;
-    protected defaultHeaders : any = {};
-    // {
-    //     'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsaWZldGltZSIsInN1YiI6IllUWTFPVGs1T0RFdE5XWmtOUzAwWW1aa0xXSmhPR1F0TnpNd01EQmxaRFF5TXpsaCIsImF1ZCI6ImxpZmV0aW1lIiwiaWF0IjoiMTQ5NzIyMzc5OSIsImppdCI6InlNZkhaZnVMOHkifQ==.dmMX09hcZh3Hqa3oHFpFoZ9AZU2VjK35XArCgCCPaZ0='
-    // };
-
-    protected _useQuerystring : boolean = false;
+    protected defaultHeaders: any = {};
+    protected _useQuerystring: boolean = false;
 
     protected authentications = {
         'default': new VoidAuth(),
@@ -713,7 +709,7 @@ export class V1Api {
      * @param includeModules When set to true, the modules details are also retrieved. The default value is false.
      * @param includeEnvStatus When set to true, the application status per environment is also returned. The default value is false.
      */
-    public applicationsGet (applicationKey: string, includeModules?: boolean, includeEnvStatus?: boolean) : Promise<{ response: http.ClientResponse; body: Application;  }> {
+    public applicationsGet(applicationKey: string, includeModules?: boolean, includeEnvStatus?: boolean): Promise<{ response: http.ClientResponse; body: Application; }> {
         const localVarPath = this.basePath + '/applications/{ApplicationKey}/'
             .replace('{' + 'ApplicationKey' + '}', String(applicationKey));
         let queryParameters: any = {};
@@ -746,6 +742,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -754,7 +751,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: Application;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: Application; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -774,7 +771,7 @@ export class V1Api {
      * @param includeModules When set to true, the modules are also returned. The default value is false.
      * @param includeEnvStatus When set to true, the application status per environment is also returned. The default value is false.
      */
-    public applicationsList (includeModules?: boolean, includeEnvStatus?: boolean) : Promise<{ response: http.ClientResponse; body: Array<Application>;  }> {
+    public applicationsList(includeModules?: boolean, includeEnvStatus?: boolean): Promise<{ response: http.ClientResponse; body: Array<Application>; }> {
         const localVarPath = this.basePath + '/applications/';
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -801,6 +798,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -809,7 +807,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: Array<Application>;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: Array<Application>; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -830,7 +828,7 @@ export class V1Api {
      * @param versionKey The key of the desired application version.
      * @param includeModules When set to true, the modules details are also retrieved. The default value is false.
      */
-    public applicationsVersionsGet (applicationKey: string, versionKey: string, includeModules: boolean) : Promise<{ response: http.ClientResponse; body: ApplicationVersion;  }> {
+    public applicationsVersionsGet(applicationKey: string, versionKey: string, includeModules: boolean): Promise<{ response: http.ClientResponse; body: ApplicationVersion; }> {
         const localVarPath = this.basePath + '/applications/{ApplicationKey}/versions/{VersionKey}/'
             .replace('{' + 'ApplicationKey' + '}', String(applicationKey))
             .replace('{' + 'VersionKey' + '}', String(versionKey));
@@ -870,6 +868,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -878,7 +877,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: ApplicationVersion;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: ApplicationVersion; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -898,7 +897,7 @@ export class V1Api {
      * @param applicationKey The key of the desired application.
      * @param maximumVersionsToReturn The maximum number of versions to return. The default value is 5.
      */
-    public applicationsVersionsList (applicationKey: string, maximumVersionsToReturn?: number) : Promise<{ response: http.ClientResponse; body: Array<ApplicationVersion>;  }> {
+    public applicationsVersionsList(applicationKey: string, maximumVersionsToReturn?: number): Promise<{ response: http.ClientResponse; body: Array<ApplicationVersion>; }> {
         const localVarPath = this.basePath + '/applications/{ApplicationKey}/versions/'
             .replace('{' + 'ApplicationKey' + '}', String(applicationKey));
         let queryParameters: any = {};
@@ -927,6 +926,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -935,7 +935,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: Array<ApplicationVersion>;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: Array<ApplicationVersion>; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -954,7 +954,7 @@ export class V1Api {
      * Creates a deployment to a target environment. An optional list of applications to include in the deployment can be specified. The input is a subset of deployment object.
      * @param deploymentData A Deployment record.
      */
-    public deploymentsCreate (deploymentData: NotesSourceEnvironmentKeyTargetEnvironmentKeyApplicationVersionKeysRecord) : Promise<{ response: http.ClientResponse; body: string;  }> {
+    public deploymentsCreate(deploymentData: NotesSourceEnvironmentKeyTargetEnvironmentKeyApplicationVersionKeysRecord): Promise<{ response: http.ClientResponse; body: string; }> {
         const localVarPath = this.basePath + '/deployments/';
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -979,6 +979,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -987,7 +988,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: string;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: string; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1006,7 +1007,7 @@ export class V1Api {
      * Discards a deployment, if possible. Only deployments whose state is “saved” can be deleted.
      * @param deploymentKey The key of the deployment to delete.
      */
-    public deploymentsDelete (deploymentKey: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public deploymentsDelete(deploymentKey: string): Promise<{ response: http.ClientResponse; body?: any; }> {
         const localVarPath = this.basePath + '/deployments/{DeploymentKey}/'
             .replace('{' + 'DeploymentKey' + '}', String(deploymentKey));
         let queryParameters: any = {};
@@ -1031,6 +1032,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1039,7 +1041,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body?: any; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1059,7 +1061,7 @@ export class V1Api {
      * @param deploymentKey The key of the deployment where the command will be executed.
      * @param command The command to execute. One of “start”, “continue” or “abort”. 
      */
-    public deploymentsExecuteCommand (deploymentKey: string, command: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public deploymentsExecuteCommand(deploymentKey: string, command: string): Promise<{ response: http.ClientResponse; body?: any; }> {
         const localVarPath = this.basePath + '/deployments/{DeploymentKey}/{Command}/'
             .replace('{' + 'DeploymentKey' + '}', String(deploymentKey))
             .replace('{' + 'Command' + '}', String(command));
@@ -1090,6 +1092,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1098,7 +1101,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body?: any; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1117,7 +1120,7 @@ export class V1Api {
      * Returns the details of a given deployment. The returned information contains the included applications and the possible conflicts that can arise from the deployment of the current applications.
      * @param deploymentKey The key of the desired deployment.
      */
-    public deploymentsGet (deploymentKey: string) : Promise<{ response: http.ClientResponse; body: DeploymentApplicationConflictsRecord;  }> {
+    public deploymentsGet(deploymentKey: string): Promise<{ response: http.ClientResponse; body: DeploymentApplicationConflictsRecord; }> {
         const localVarPath = this.basePath + '/deployments/{DeploymentKey}/'
             .replace('{' + 'DeploymentKey' + '}', String(deploymentKey));
         let queryParameters: any = {};
@@ -1142,6 +1145,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1150,7 +1154,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: DeploymentApplicationConflictsRecord;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: DeploymentApplicationConflictsRecord; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1169,7 +1173,7 @@ export class V1Api {
      * Returns the details of a given deployment execution, including the deployment status and messages.
      * @param deploymentKey The key of the deployment whose status is being requested.
      */
-    public deploymentsGetStatus (deploymentKey: string) : Promise<{ response: http.ClientResponse; body: DeploymentStatusDeploymentLogRecord;  }> {
+    public deploymentsGetStatus(deploymentKey: string): Promise<{ response: http.ClientResponse; body: DeploymentStatusDeploymentLogRecord; }> {
         const localVarPath = this.basePath + '/deployments/{DeploymentKey}/status/'
             .replace('{' + 'DeploymentKey' + '}', String(deploymentKey));
         let queryParameters: any = {};
@@ -1194,6 +1198,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1202,7 +1207,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: DeploymentStatusDeploymentLogRecord;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: DeploymentStatusDeploymentLogRecord; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1222,7 +1227,7 @@ export class V1Api {
      * @param minDate The minimum creation date of the deployments to return. The default value is 1 week before the current date.
      * @param maxDate The maximum creation date of the deployments to return. The default value is the current date.
      */
-    public deploymentsList (minDate?: Date, maxDate?: Date) : Promise<{ response: http.ClientResponse; body: Array<Deployment>;  }> {
+    public deploymentsList(minDate?: Date, maxDate?: Date): Promise<{ response: http.ClientResponse; body: Array<Deployment>; }> {
         const localVarPath = this.basePath + '/deployments/';
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -1249,6 +1254,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1257,7 +1263,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: Array<Deployment>;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: Array<Deployment>; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1277,7 +1283,7 @@ export class V1Api {
      * @param deploymentKey The key of the deployment to update.
      * @param deploymentData The deployment information to update.
      */
-    public deploymentsUpdate (deploymentKey: string, deploymentData: NotesSourceEnvironmentKeyTargetEnvironmentKeyApplicationVersionKeysRecord) : Promise<{ response: http.ClientResponse; body: Deployment;  }> {
+    public deploymentsUpdate(deploymentKey: string, deploymentData: NotesSourceEnvironmentKeyTargetEnvironmentKeyApplicationVersionKeysRecord): Promise<{ response: http.ClientResponse; body: Deployment; }> {
         const localVarPath = this.basePath + '/deployments/{DeploymentKey}/'
             .replace('{' + 'DeploymentKey' + '}', String(deploymentKey));
         let queryParameters: any = {};
@@ -1308,6 +1314,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1316,7 +1323,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: Deployment;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: Deployment; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1335,7 +1342,7 @@ export class V1Api {
      * @hide This is a method use only to actually download the files is not really an API method.
      * @param downloadKey 
      */
-    public downloads (downloadKey: string) : Promise<{ response: http.ClientResponse; body: string;  }> {
+    public downloads(downloadKey: string): Promise<{ response: http.ClientResponse; body: string; }> {
         const localVarPath = this.basePath + '/downloads/{DownloadKey}/'
             .replace('{' + 'DownloadKey' + '}', String(downloadKey));
         let queryParameters: any = {};
@@ -1360,6 +1367,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1368,7 +1376,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: string;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: string; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1389,7 +1397,7 @@ export class V1Api {
      * @param applicationKey The key of the application for which to generate a new version.
      * @param applicationVersionCreate A structure holding the new version name for the application and for its native applications, if applicable.
      */
-    public environmentsApplicationsVersionsCreate (environmentKey: string, applicationKey: string, applicationVersionCreate: ApplicationVersionCreate) : Promise<{ response: http.ClientResponse; body: ApplicationVersionKeyRecord;  }> {
+    public environmentsApplicationsVersionsCreate(environmentKey: string, applicationKey: string, applicationVersionCreate: ApplicationVersionCreate): Promise<{ response: http.ClientResponse; body: ApplicationVersionKeyRecord; }> {
         const localVarPath = this.basePath + '/environments/{EnvironmentKey}/applications/{ApplicationKey}/versions/'
             .replace('{' + 'EnvironmentKey' + '}', String(environmentKey))
             .replace('{' + 'ApplicationKey' + '}', String(applicationKey));
@@ -1426,6 +1434,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1434,7 +1443,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: ApplicationVersionKeyRecord;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: ApplicationVersionKeyRecord; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1455,7 +1464,7 @@ export class V1Api {
      * @param applicationKey The key of the application for which to get the binary file link.
      * @param type The type of binary file to return, when applicable. One of “oap”, “apk” or “ipa”.
      */
-    public environmentsDownloadRunningApp (environmentKey: string, applicationKey: string, type?: string) : Promise<{ response: http.ClientResponse; body: DownloadLink;  }> {
+    public environmentsDownloadRunningApp(environmentKey: string, applicationKey: string, type?: string): Promise<{ response: http.ClientResponse; body: DownloadLink; }> {
         const localVarPath = this.basePath + '/environments/{EnvironmentKey}/applications/{ApplicationKey}/content/'
             .replace('{' + 'EnvironmentKey' + '}', String(environmentKey))
             .replace('{' + 'ApplicationKey' + '}', String(applicationKey));
@@ -1490,6 +1499,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1498,7 +1508,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: DownloadLink;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: DownloadLink; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1517,7 +1527,7 @@ export class V1Api {
      * Returns the details of a given environment.
      * @param environmentKey The key of the desired environment.
      */
-    public environmentsGet (environmentKey: string) : Promise<{ response: http.ClientResponse; body: Environment;  }> {
+    public environmentsGet(environmentKey: string): Promise<{ response: http.ClientResponse; body: Environment; }> {
         const localVarPath = this.basePath + '/environments/{EnvironmentKey}/'
             .replace('{' + 'EnvironmentKey' + '}', String(environmentKey));
         let queryParameters: any = {};
@@ -1542,6 +1552,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1550,7 +1561,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: Environment;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: Environment; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1572,7 +1583,7 @@ export class V1Api {
      * @param includeEnvStatus When set to true, the applications’ status information in the environment is included in the result. The default value is false.
      * @param includeModules When set to true, the modules details are also retrieved. The default value is false.
      */
-    public environmentsGetRunningApp (environmentKey: string, applicationKey: string, includeEnvStatus?: boolean, includeModules?: boolean) : Promise<{ response: http.ClientResponse; body: Application;  }> {
+    public environmentsGetRunningApp(environmentKey: string, applicationKey: string, includeEnvStatus?: boolean, includeModules?: boolean): Promise<{ response: http.ClientResponse; body: Application; }> {
         const localVarPath = this.basePath + '/environments/{EnvironmentKey}/applications/{ApplicationKey}/'
             .replace('{' + 'EnvironmentKey' + '}', String(environmentKey))
             .replace('{' + 'ApplicationKey' + '}', String(applicationKey));
@@ -1611,6 +1622,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1619,7 +1631,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: Application;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: Application; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1640,7 +1652,7 @@ export class V1Api {
      * @param includeModules When set to true, the modules details are also retrieved. The default value is false.
      * @param includeEnvStatus When set to true, the applications’ status information in the environment is included in the result. The default value is false.
      */
-    public environmentsGetRunningApps (environmentKey: string, includeModules?: boolean, includeEnvStatus?: boolean) : Promise<{ response: http.ClientResponse; body: Array<Application>;  }> {
+    public environmentsGetRunningApps(environmentKey: string, includeModules?: boolean, includeEnvStatus?: boolean): Promise<{ response: http.ClientResponse; body: Array<Application>; }> {
         const localVarPath = this.basePath + '/environments/{EnvironmentKey}/applications/'
             .replace('{' + 'EnvironmentKey' + '}', String(environmentKey));
         let queryParameters: any = {};
@@ -1673,6 +1685,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1681,7 +1694,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: Array<Application>;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: Array<Application>; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1699,7 +1712,7 @@ export class V1Api {
      * 
      * Lists all the environments in the infrastructure.
      */
-    public environmentsList () : Promise<{ response: http.ClientResponse; body: Array<Environment>;  }> {
+    public environmentsList(): Promise<{ response: http.ClientResponse; body: Array<Environment>; }> {
         const localVarPath = this.basePath + '/environments/';
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -1727,7 +1740,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: Array<Environment>;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: Array<Environment>; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1749,7 +1762,7 @@ export class V1Api {
      * @param includePublicElements Boolean to indicate if public elements should be returned. Default is false.
      * @param includeConsumedElements Boolean to indicate if consumed elements should be returned. Default is false.
      */
-    public moduleVersionGet (moduleKey: string, moduleVersionKey: string, includePublicElements?: boolean, includeConsumedElements?: boolean) : Promise<{ response: http.ClientResponse; body: ModuleVersion;  }> {
+    public moduleVersionGet(moduleKey: string, moduleVersionKey: string, includePublicElements?: boolean, includeConsumedElements?: boolean): Promise<{ response: http.ClientResponse; body: ModuleVersion; }> {
         const localVarPath = this.basePath + '/modules/{ModuleKey}/versions/{ModuleVersionKey}/'
             .replace('{' + 'ModuleKey' + '}', String(moduleKey))
             .replace('{' + 'ModuleVersionKey' + '}', String(moduleVersionKey));
@@ -1788,6 +1801,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1796,7 +1810,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: ModuleVersion;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: ModuleVersion; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1818,7 +1832,7 @@ export class V1Api {
      * @param includeConsumedElements Boolean to indicate if consumed elements should be returned. Default is false.
      * @param maximumVersionsToReturn Maximum number of versions to return. Default is 5.
      */
-    public moduleVersionsList (moduleKey: string, includePublicElements?: boolean, includeConsumedElements?: boolean, maximumVersionsToReturn?: number) : Promise<{ response: http.ClientResponse; body: Array<ModuleVersion>;  }> {
+    public moduleVersionsList(moduleKey: string, includePublicElements?: boolean, includeConsumedElements?: boolean, maximumVersionsToReturn?: number): Promise<{ response: http.ClientResponse; body: Array<ModuleVersion>; }> {
         const localVarPath = this.basePath + '/modules/{ModuleKey}/versions/'
             .replace('{' + 'ModuleKey' + '}', String(moduleKey));
         let queryParameters: any = {};
@@ -1855,6 +1869,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1863,7 +1878,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: Array<ModuleVersion>;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: Array<ModuleVersion>; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1883,7 +1898,7 @@ export class V1Api {
      * @param moduleKey Key of the module to list the details from.
      * @param includeEnvStatus When set to true, the module status per environment is also returned. The default value is false.
      */
-    public modulesGet (moduleKey: string, includeEnvStatus?: boolean) : Promise<{ response: http.ClientResponse; body: Module;  }> {
+    public modulesGet(moduleKey: string, includeEnvStatus?: boolean): Promise<{ response: http.ClientResponse; body: Module; }> {
         const localVarPath = this.basePath + '/modules/{ModuleKey}/'
             .replace('{' + 'ModuleKey' + '}', String(moduleKey));
         let queryParameters: any = {};
@@ -1912,6 +1927,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1920,7 +1936,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: Module;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: Module; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -1939,7 +1955,7 @@ export class V1Api {
      * Returns a list of modules that exist in the infrastructure.
      * @param includeEnvStatus When set to true, the module status per environment is also returned. The default value is false.
      */
-    public modulesList (includeEnvStatus?: boolean) : Promise<{ response: http.ClientResponse; body: Array<Module>;  }> {
+    public modulesList(includeEnvStatus?: boolean): Promise<{ response: http.ClientResponse; body: Array<Module>; }> {
         const localVarPath = this.basePath + '/modules/';
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -1962,6 +1978,7 @@ export class V1Api {
         };
 
         this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.os_auth.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1970,7 +1987,7 @@ export class V1Api {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: Array<Module>;  }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: Array<Module>; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
