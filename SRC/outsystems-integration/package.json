@@ -8,7 +8,7 @@
     "compile": "tsc -p outsystems-task\\outsystemsreleasetaskV1",
     "build": "npm run clean && npm run compile",
     "package": "npm run build && tfx extension create --rev-version --manifest-globs",
-    "install-task-lib" : "cd outsystems-task\\outsystemsreleasetaskV1 && npm install --save-dev"
+    "install-task-lib" : "npm --prefix ./outsystems-task/outsystemsreleasetaskV1 install --save-dev"
   },
   "devDependencies": {
     "tfx-cli": "^0.4.5",
