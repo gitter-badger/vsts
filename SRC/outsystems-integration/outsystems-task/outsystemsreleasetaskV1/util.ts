@@ -18,9 +18,9 @@ export const osDeploymentStatus = {
 const LOG_PREFIX = '[OUTSYSTEMS]';
 
 export function log(...args: Array<string>) {
-    const argumentss = Array.prototype.slice.call(args);
-    args.unshift(LOG_PREFIX + ': ');
-    console.log.apply(console, arguments);
+    const fArgs = Array.prototype.slice.call(args);
+    fArgs.unshift(LOG_PREFIX + ': ');
+    console.log.apply(console, fArgs);
 }
 
 export function ConvertToBoolean(input: string): boolean | undefined {

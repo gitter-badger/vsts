@@ -68,7 +68,7 @@ async function doWork() {
         const APPVERSIONSTAGINGPUBLISHINGINTERVAL = 5000;
         const MAXAPPVERSIONTORETURN = 120;
 
-        util.log(`Starting release of Apps ${taskOptions.osApplication}`);
+        util.log(`Starting release of Outsystems Apps: ${taskOptions.osApplication}`);
         lifetime.applicationsGet(taskOptions.osApplication, true, true)
 
             //MULTI APPS: lifetime.applicationsList(false,true)
@@ -118,7 +118,7 @@ async function doWork() {
                 // in staging because it was never published in source environment '%s''.
 
                 const newAppVersionKey: string = res.body.ApplicationVersionKey;
-                tl.debug(`newAppVersionKey = ${newAppVersionKey}`);
+                util.log(`Created new Outsystem Application Version: ${newAppVersionKey}`);
 
                 //return lifetime.deploymentsCreate(deployPlan);
                 return CreateAndExecuteDeployPan(taskOptions, lifetime, [newAppVersionKey]);
@@ -209,13 +209,14 @@ async function CreateAndExecuteDeployPan(taskOptions: TaskOptions, lifetime: ltc
         //New Deployment Plan
         .then((res) => {
             newDeployPlanKey = res.body;
-            tl.debug(`tempDeployKey = ${newDeployPlanKey}`);
+            util.log(`Created Outsystems Deployment Plan: ${newDeployPlanKey}`);
 
             return lifetime.deploymentsExecuteCommand(newDeployPlanKey, util.osDeployPlanCommands.Start);
         })
         .then((res) => {
             const deployCommandMessage: string = res.body.Errors[0];
             const deployStatusCode = res.body.StatusCode;
+
             tl.debug(`deployCommandMessage = ${deployCommandMessage}`);
 
             return MonitorProgress(lifetime, newDeployPlanKey);
@@ -242,7 +243,7 @@ async function MonitorProgress(lifetime: ltclt.V1Api, deployKey: string) {
                     deploylog = curDeploylog;
 
                     deltaLog.forEach((entry) => {
-                        tl.debug(entry.Message);
+                        util.log(entry.Message);
                     });
 
                     if (deployStatus === util.osDeploymentStatus.Running ||
@@ -255,7 +256,7 @@ async function MonitorProgress(lifetime: ltclt.V1Api, deployKey: string) {
                         clearInterval(intervalId);
 
                         const message = tl.loc('OSSuccessfulDeployment', deployStatus);
-                        tl.debug(message);
+                        util.log(message);
                         tl.setResult(tl.TaskResult.Succeeded, message);
 
                     } else if (deployStatus === util.osDeploymentStatus.FinishedWithErrors ||
@@ -264,8 +265,8 @@ async function MonitorProgress(lifetime: ltclt.V1Api, deployKey: string) {
                         clearInterval(intervalId);
 
                         const message = tl.loc('OSFailedDeployment', deployStatus);
-                        tl.debug(message);
-                        tl.setResult(tl.TaskResult.Succeeded, message);
+                        tl.error(message);
+                        tl.setResult(tl.TaskResult.Failed, message);
 
                     } else {
                         //We should never get to this situation.
