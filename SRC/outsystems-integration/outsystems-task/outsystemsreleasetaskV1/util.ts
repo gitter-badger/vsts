@@ -4,15 +4,29 @@ import request = require('request');
 import url = require('url');
 
 // Outsystems Deploy Plans Exec Commands
-export const osDeployPlanCommands = { "Start": "start", "Continue": "continue", "Abort": "abort"}; 
-export const osDeploymentStatus= { "Running": "running", "Saved": "saved", "NeedsUserIntervention": "needs_user_intervention", "Aborted": "aborted", "Aborting": "aborting", "FinishedSuccessfully": "finished_successful", "FinishedWithWarnings": "finished_with_warnings", "FinishedWithErrors": "finished_with_errors"}; 
+export const osDeployPlanCommands = { 'Start': 'start', 'Continue': 'continue', 'Abort': 'abort'};
+export const osDeploymentStatus = {
+    'Running': 'running',
+    'Saved': 'saved',
+    'NeedsUserIntervention': 'needs_user_intervention',
+    'Aborted': 'aborted',
+    'Aborting': 'aborting',
+    'FinishedSuccessfully': 'finished_successful',
+    'FinishedWithWarnings': 'finished_with_warnings',
+    'FinishedWithErrors': 'finished_with_errors'};
 
+const LOG_PREFIX = '[OUTSYSTEMS]';
 
-export function convertToBoolean(input: string): boolean | undefined {
+export function log(...args: Array<string>) {
+    const argumentss = Array.prototype.slice.call(args);
+    args.unshift(LOG_PREFIX + ': ');
+    console.log.apply(console, arguments);
+}
+
+export function ConvertToBoolean(input: string): boolean | undefined {
     try {
         return JSON.parse(input);
-    }
-    catch (e) {
+    } catch (e) {
         return undefined;
     }
 }

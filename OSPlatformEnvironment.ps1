@@ -62,5 +62,5 @@ function Manage-AzureVMs
     }
 }
 
-Manage-AzureVMs -ResourceGroupName 'OutSystems' -Action 'stop'
-#Manage-AzureVMs -ResourceGroupName 'OutSystems' -Action 'start'
+#Manage-AzureVMs -ResourceGroupName 'OutSystems' -Action 'stop'
+Manage-AzureVMs -ResourceGroupName 'OutSystems' -Action 'start'
