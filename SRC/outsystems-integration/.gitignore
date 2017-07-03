@@ -34,3 +34,6 @@ lifetime
 samples
 agent
 *.js
+
+# npm
+npm-debug.log
