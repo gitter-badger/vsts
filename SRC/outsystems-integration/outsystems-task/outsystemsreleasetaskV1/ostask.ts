@@ -34,7 +34,7 @@ export class TaskOptions {
         this.osServerEndpointAuth = tl.getEndpointAuthorization(this.osServerEndpoint, false);
 
         this.osApplication = tl.getInput('outsystemsApplication', true);
-        this.osTagAndDeploy = util.convertToBoolean(tl.getInput('outsystemsTagAndDeploy', true));
+        this.osTagAndDeploy = util.ConvertToBoolean(tl.getInput('outsystemsTagAndDeploy', true));
         this.osAppVersion = tl.getInput('outsystemsAppVersionName', true);
         this.osExistingAppVersion = tl.getInput('outsystemsExistingAppVersion', false);
         this.osChangeLog = tl.getInput('outsystemsDeployPlanChangeLog', true);
