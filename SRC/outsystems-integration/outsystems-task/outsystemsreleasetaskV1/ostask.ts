@@ -51,7 +51,7 @@ export class TaskOptions {
         this.saveResultsTo = path.join(resultsDirectory, 'outsystemsResults');
 
         this.strictSSL = ('true' !== tl.getEndpointDataParameter(this.osServerEndpoint, 'acceptUntrustedCerts', true));
-        tl.debug('strictSSL=' + this.strictSSL);
+        //tl.debug('strictSSL=' + this.strictSSL);
     }
 }
 
