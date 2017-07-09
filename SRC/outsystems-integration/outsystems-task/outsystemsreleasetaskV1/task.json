@@ -12,7 +12,7 @@
     "version": {
         "Major": 1,
         "Minor": 1,
-        "Patch": 57
+        "Patch": 58
     },
     "demands": [],
     "minimumAgentVersion": "1.99.0",
@@ -27,7 +27,7 @@
         {
             "name": "outsystemsApplication",
             "type": "pickList",
-            "label": "Application",
+            "label": "Applications",
             "defaultValue": "",
             "required": true,
             "helpMarkDown": "Select one or more Outsystems applications to deploy. [Learn more.](https://aka.ms/outsystems)",
@@ -45,6 +45,14 @@
             "defaultValue": true,
             "required": true,
             "helpMarkDown": "Should the task create a new Outsystems Deployment Plan?"
+        },
+        {
+            "name": "outsystemsAutomaticVersioning",
+            "type": "boolean",
+            "label": "Automatic Versioning",
+            "defaultValue": false,
+            "required": true,
+            "helpMarkDown": "Follow Outsystems application automatic versioning. Version format is supported as [Major].[Minor](.[Revision])."
         },
         {
             "name": "outsystemsAppVersionName",

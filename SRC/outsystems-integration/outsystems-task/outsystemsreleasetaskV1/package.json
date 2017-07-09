@@ -17,8 +17,11 @@
   },
   "homepage": "http://aka.ms/outsystems",
   "dependencies": {
+    "@types/async-polling": "0.0.2",
     "@types/node": "^7.0.18",
-    "@types/q": "0.0.32",
+    "@types/semver": "^5.3.32",
+    "async-polling": "^0.2.1",
     "vsts-task-lib": "^1.1.0"
   }
+
 }

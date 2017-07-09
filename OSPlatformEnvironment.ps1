@@ -1,5 +1,14 @@
 ﻿Get-Module -ListAvailable -Name AzureRm.Resources | Select Version
-Login-AzureRmAccount
+#Login-AzureRmAccount
+
+Try {
+  Get-AzureRmContext
+} Catch {
+  if ($_ -like "*Login-AzureRmAccount to login*") {
+    Login-AzureRmAccount
+  }
+}
+
 #Get-AzureRmSubscription
 Set-AzureRmContext -SubscriptionName "JDADX Internal"
 
@@ -62,5 +71,5 @@ function Manage-AzureVMs
     }
 }
 
-#Manage-AzureVMs -ResourceGroupName 'OutSystems' -Action 'stop'
-Manage-AzureVMs -ResourceGroupName 'OutSystems' -Action 'start'
+Manage-AzureVMs -ResourceGroupName 'OutSystems' -Action 'stop'
+#Manage-AzureVMs -ResourceGroupName 'OutSystems' -Action 'start'
