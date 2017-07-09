@@ -20,14 +20,22 @@
         {
             "name": "outsystemsServiceEndpoint",
             "type": "connectedService:Outsystems",
-            "label": "Outsystems Service Connection",
+            "label": "Outsystems Connection",
             "required": true,
             "helpMarkDown": "Select a Outsystems service connection."
         },
         {
+            "name": "outsystemsTagAndDeploy",
+            "type": "boolean",
+            "label": "Tag and Deploy",
+            "defaultValue": true,
+            "required": true,
+            "helpMarkDown": "Should the task create a new Outsystems Deployment Plan?"
+        },
+        {
             "name": "outsystemsApplication",
             "type": "pickList",
-            "label": "Applications",
+            "label": "Application(s)",
             "defaultValue": "",
             "required": true,
             "helpMarkDown": "Select one or more Outsystems applications to deploy. [Learn more.](https://aka.ms/outsystems)",
@@ -39,18 +47,10 @@
             }
         },
         {
-            "name": "outsystemsTagAndDeploy",
-            "type": "boolean",
-            "label": "Tag and Deploy",
-            "defaultValue": true,
-            "required": true,
-            "helpMarkDown": "Should the task create a new Outsystems Deployment Plan?"
-        },
-        {
             "name": "outsystemsAutomaticVersioning",
             "type": "boolean",
             "label": "Automatic Versioning",
-            "defaultValue": false,
+            "defaultValue": true,
             "required": true,
             "helpMarkDown": "Follow Outsystems application automatic versioning. Version format is supported as [Major].[Minor](.[Revision])."
         },
@@ -58,8 +58,9 @@
             "name": "outsystemsAppVersionName",
             "type": "string",
             "label": "Application Version",
+            "visibleRule": "outsystemsAutomaticVersioning = false",
             "defaultValue": "",
-            "required": true,
+            "required": false,
             "helpMarkDown": "Outsystems Application Version. Supported format is [Major].[Minor](.[Revision]). Consider taking advantage of VSTS variables like $(Release.ReleaseName) that you can define in General tab. Example: 0.0.$(rev:rr)",
             "properties": {
                 "resizable": "true",
@@ -148,15 +149,13 @@
     "instanceNameFormat": "Deploy Outsystems App(s)",
     "execution": {
         "Node": {
-            "target": "ostask.js"
+            "target": "index.js"
         }
     },
     "messages": {
         "OSAppVersionAlreadyExists": "The version '%s' of application '%s' already exists. Insert a new version.",
         "OSFailureAppNotModified": "The appication '%s' was not modified. Maybe syncronizing you environment will do.",
-        "OSSuccessfulDeployment": "Deployment complete. Outsystems Status: %s.",
-        "OSFailedDeployment": "Deployment unsuccessful. Check loggin and/or Outsystems Lifetime console",
-        "OSUnabletoMonitorProgress": "Unable to monitor Outsystems Lifetime Deployment progress. Last known state: %s.",
+        "OSFailureAppVersionNotFound": "The version '%s' of application '%s' was not found.",
         "OSNotDetected": "Outsystems Platform not detected (unable to reach url)",
         "OSFailed": "Outsystems failed with error: %s",
         "succeeded": "succeeded",
