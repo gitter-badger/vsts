@@ -10,9 +10,9 @@
  * Do not edit the class manually.
  */
 
-import request = require('request');
-import http = require('http');
-import Promise = require('bluebird');
+import * as request from "request"
+import * as http from "http"
+import * as bluebird from "bluebird"
 
 let defaultBasePath = 'https://localhost/lifetimeapi/rest/v1';
 
@@ -204,7 +204,7 @@ export class ApplicationVersionKeyRecord {
     /**
     * The key of the newly created application version.
     */
-    'applicationVersionKey': string;
+    'ApplicationVersionKey': string;
 }
 
 /**
@@ -303,7 +303,7 @@ export class DeploymentMessage {
     /**
     * Details of the message.
     */
-    'message': string;
+    'Message': string;
 }
 
 /**
@@ -313,11 +313,11 @@ export class DeploymentStatusDeploymentLogRecord {
     /**
     * Status of the deployment. [saved | running | needs_user_intervention | aborted | aborting | finished_successful | finished_with_warnings | finished_with_errors]
     */
-    'deploymentStatus': string;
+    'DeploymentStatus': string;
     /**
     * List of deployment messages.
     */
-    'deploymentLog': Array<DeploymentMessage>;
+    'DeploymentLog': Array<DeploymentMessage>;
 }
 
 /**

@@ -14,7 +14,7 @@ export class OsDeploy {
     public taskOptions: TaskOptions;
     public lifetime: ltclt.V1Api;
 
-    public log: Array<string> = [];
+    public log: Array<ltclt.DeploymentMessage> = [];
     public status: string;
 
     public applicationIDs: string;
@@ -215,17 +215,17 @@ export class OsDeploy {
                 .then((res) => {
                     //const deployStatus: string = res.body.DeploymentStatus;
                     this.status = res.body.DeploymentStatus;
-                    const curDeploylog = res.body.DeploymentLog;
+                    const curDeploylog : Array<ltclt.DeploymentMessage> = res.body.DeploymentLog;
 
-                    if (res.body.Errors) {
-                        end(res.body.Errors);
-                    }
+                    // if (res.body.Errors) {
+                    //     end(res.body.Errors);
+                    // }
 
                     const deltaLog = curDeploylog.slice(this.log.length, curDeploylog.length);
                     this.log = curDeploylog;
 
-                    deltaLog.forEach((entry) => {
-                        util.Log(entry.Message);
+                    deltaLog.forEach((deployEntry: ltclt.DeploymentMessage) => {
+                        util.Log(deployEntry.Message);
                     });
 
                     end(null, res);
