@@ -1,4 +1,5 @@
 import * as tl from 'vsts-task-lib/task';
+import * as request from 'request';
 import * as path from 'path';
 import * as url from 'url';
 
