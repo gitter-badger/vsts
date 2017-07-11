@@ -23,6 +23,7 @@
     "@types/request": "0.0.45",
     "@types/semver": "^5.3.32",
     "async-polling": "^0.2.1",
+    "request": "^2.81.0",
     "vsts-task-lib": "^1.1.0"
   }
 }
