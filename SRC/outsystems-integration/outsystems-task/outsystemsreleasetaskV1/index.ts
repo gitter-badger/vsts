@@ -32,12 +32,12 @@ export class TaskOptions {
     constructor() {
 
         this.osServerEndpoint = tl.getInput('outsystemsServiceEndpoint', true);
-        this.osServerEndpointUrl = url.resolve(tl.getEndpointUrl(this.osServerEndpoint, false), 'lifetimeapi/rest/v1');
-        this.osServerEndpointAuth = tl.getEndpointAuthorization(this.osServerEndpoint, false);
+        this.osServerEndpointUrl = url.resolve(tl.getEndpointUrl(this.osServerEndpoint, true), 'lifetimeapi/rest/v1');
+        //this.osServerEndpointAuth = tl.getEndpointAuthorization(this.osServerEndpoint, false);
 
         this.osApplication = tl.getInput('outsystemsApplication', true);
         this.osTagAndDeploy = util.ConvertToBoolean(tl.getInput('outsystemsTagAndDeploy', true));
-        this.osAppVersion = tl.getInput('outsystemsAppVersionName', true);
+        this.osAppVersion = tl.getInput('outsystemsAppVersionName', false);
         this.osExistingAppVersion = tl.getInput('outsystemsExistingAppVersion', false);
         this.osChangeLog = tl.getInput('outsystemsDeployPlanChangeLog', true);
         this.osNotes = tl.getInput('outsystemsDeployNotes', false);
@@ -59,17 +59,22 @@ export class TaskOptions {
 }
 
 async function doWork() {
+    try {
+        tl.setResourcePath(path.join(__dirname, 'task.json'));
 
-    tl.setResourcePath(path.join(__dirname, 'task.json'));
+        const taskOptions: TaskOptions = new TaskOptions();
+        const lifetime = new ltclt.V1Api(taskOptions.osServerEndpointUrl);
+        const ltTokenApi = tl.getEndpointAuthorizationParameter(taskOptions.osServerEndpoint, 'apitoken', true);
 
-    const taskOptions: TaskOptions = new TaskOptions();
-    const lifetime = new ltclt.V1Api(taskOptions.osServerEndpointUrl);
-    const ltTokenApi = tl.getEndpointAuthorizationParameter(taskOptions.osServerEndpoint, 'apitoken', false);
+        lifetime.setApiKey(ltclt.V1ApiApiKeys.os_auth, ltTokenApi);
 
-    lifetime.setApiKey(ltclt.V1ApiApiKeys.os_auth, ltTokenApi);
-
-    const curTask: OsDeploy = new OsDeploy(taskOptions, lifetime);
-    await curTask.start();
+        const curTask: OsDeploy = new OsDeploy(taskOptions, lifetime);
+        await curTask.start();
+    } catch (err) {
+        const errorMessage = JSON.stringify(err);
+        //tl.debug(errorMessage);
+        tl.setResult(tl.TaskResult.Failed, errorMessage);
+    }
 }
 
 doWork();

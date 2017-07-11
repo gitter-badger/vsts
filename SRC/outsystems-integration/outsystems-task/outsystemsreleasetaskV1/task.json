@@ -71,7 +71,7 @@
             "type": "string",
             "label": "Change Log",
             "defaultValue": "",
-            "required": false,
+            "required": true,
             "helpMarkDown": "Outsystems Application Version.",
             "properties": {
                 "resizable": "true",
