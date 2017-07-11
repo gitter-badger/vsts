@@ -651,6 +651,7 @@ export class OAuth implements Authentication {
 
     applyToRequest(requestOptions: request.Options): void {
         if (requestOptions && requestOptions.headers) {
+            requestOptions.strictSSL = false;
             requestOptions.headers["Authorization"] = "Bearer " + this.apiKey;
         }
     }
@@ -734,6 +735,7 @@ export class V1Api {
 
         let requestOptions: request.Options = {
             method: 'GET',
+            strictSSL: false,
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,

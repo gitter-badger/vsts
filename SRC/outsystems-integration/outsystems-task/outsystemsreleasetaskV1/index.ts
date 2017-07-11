@@ -56,6 +56,7 @@ export class TaskOptions {
         this.saveResultsTo = path.join(resultsDirectory, 'outsystemsResults');
 
         this.strictSSL = ('true' !== tl.getEndpointDataParameter(this.osServerEndpoint, 'acceptUntrustedCerts', true));
+        tl.debug('strictSSL=' + this.strictSSL);
     }
 }
 
@@ -74,7 +75,7 @@ async function doWork() {
     } catch (err) {
         const errorMessage = JSON.stringify(err);
         //tl.debug(errorMessage);
-        tl.setResult(tl.TaskResult.Failed, errorMessage);
+        tl.setResult(tl.TaskResult.Failed, `Error: ${err.message} Details: ${errorMessage}`);
     }
 }
 
