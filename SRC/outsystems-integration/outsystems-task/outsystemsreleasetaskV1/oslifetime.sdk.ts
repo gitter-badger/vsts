@@ -10,9 +10,9 @@
  * Do not edit the class manually.
  */
 
-import * as request from 'request'
-import * as http from 'http'
-import * as bluebird from 'bluebird'
+import * as request from 'request';
+import * as http from 'http';
+import * as bluebird from 'bluebird';
 
 let defaultBasePath = 'https://localhost/lifetimeapi/rest/v1';
 
