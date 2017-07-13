@@ -61,3 +61,17 @@ export function GetNextSemVersion(curVersion: string): string {
         return undefined;
     }
 }
+
+export function OrderAppVersions(appList: Array<any>): any {
+    return appList.sort((a, b) => {
+        const v1 = a;
+        const v2 = b;
+
+        if (!semver.valid(v1.Version)) {v1.Version = `${v1.Version}.0`; }
+        if (!semver.valid(v2.Version)) {v2.Version = `${v2.Version}.0`; }
+
+        if (semver.gt(a.Version, b.Version)) { return -1; }
+        if (semver.eq(a.Version, b.Version)) { return 0; }
+        if (semver.lt(a.Version, b.Version)) { return 1; }
+    });
+}

@@ -123,8 +123,10 @@ export class OsDeploy {
     private async GetLatestAppVersion(osApplication: string): Promise<string> {
         const res: any = await this.lifetime.applicationsVersionsList(osApplication, this.MAXAPPVERSIONTORETURN);
 
-        const appVersionList: Array<ltclt.ApplicationVersion> = res.body;
-        // OS App Versions are returned ordered.
+        let appVersionList: Array<ltclt.ApplicationVersion> = res.body;
+        // OS App Versions are returned ordered incorrectly. Does not follow semantic version.
+        // Custome ordering, based in semver
+        appVersionList = util.OrderAppVersions(appVersionList);
         return appVersionList[0].Version;
     }
 
