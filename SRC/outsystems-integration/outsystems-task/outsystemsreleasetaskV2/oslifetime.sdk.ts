@@ -10,9 +10,9 @@
  * Do not edit the class manually.
  */
 
-import * as request from "request"
-import * as http from "http"
-import * as bluebird from "bluebird"
+import * as request from 'request';
+import * as http from 'http';
+import * as bluebird from 'bluebird';
 
 let defaultBasePath = 'https://localhost/lifetimeapi/rest/v1';
 
@@ -644,13 +644,25 @@ export class ApiKeyAuth implements Authentication {
 export class OAuth implements Authentication {
     public accessToken: string;
     public apiKey: string;
+    private _strictSSL: boolean = true;
+
+    get StrictSSL(): boolean {
+        return this._strictSSL;
+    }
+
+    set StrictSSL(strictSSL: boolean) {
+        if (strictSSL !== null) {
+            this._strictSSL = strictSSL;
+        }
+    }
 
     // constructor(private paramName: string) {
-    //     this.accessToken = paramName; 
+    //     this.accessToken = paramName;
     // }
 
     applyToRequest(requestOptions: request.Options): void {
         if (requestOptions && requestOptions.headers) {
+            requestOptions.strictSSL = this.StrictSSL;
             requestOptions.headers["Authorization"] = "Bearer " + this.apiKey;
         }
     }
@@ -672,14 +684,18 @@ export class V1Api {
     protected basePath = defaultBasePath;
     protected defaultHeaders: any = {};
     protected _useQuerystring: boolean = false;
+    protected strictSSL: boolean = true;
 
     protected authentications = {
         'default': new VoidAuth(),
         'os_auth': new OAuth()
     }
 
-    constructor(basePath?: string);
-    constructor(basePathOrUsername: string, password?: string, basePath?: string) {
+    constructor(basePath?: string, strictSSL?: boolean);
+    constructor(basePathOrUsername: string, strictSSL?: boolean, password?: string, basePath?: string) {
+        if (strictSSL !== null) {
+            this.strictSSL = this.authentications.os_auth.StrictSSL = strictSSL;
+        }
         if (password) {
             if (basePath) {
                 this.basePath = basePath;
@@ -734,6 +750,7 @@ export class V1Api {
 
         let requestOptions: request.Options = {
             method: 'GET',
+            strictSSL: false,
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,

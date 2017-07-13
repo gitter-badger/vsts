@@ -65,9 +65,8 @@ async function doWork() {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
 
         const taskOptions: TaskOptions = new TaskOptions();
-        const lifetime = new ltclt.V1Api(taskOptions.osServerEndpointUrl);
+        const lifetime = new ltclt.V1Api(taskOptions.osServerEndpointUrl, taskOptions.strictSSL);
         const ltTokenApi = tl.getEndpointAuthorizationParameter(taskOptions.osServerEndpoint, 'apitoken', true);
-
         lifetime.setApiKey(ltclt.V1ApiApiKeys.os_auth, ltTokenApi);
 
         const curTask: OsDeploy = new OsDeploy(taskOptions, lifetime);
