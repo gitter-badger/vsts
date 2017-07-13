@@ -12,7 +12,7 @@
     "version": {
         "Major": 1,
         "Minor": 1,
-        "Patch": 63
+        "Patch": 64
     },
     "demands": [],
     "minimumAgentVersion": "1.99.0",
@@ -145,7 +145,7 @@
             "resultTemplate": "{ \"Value\" : \"{{{Key}}}\", \"DisplayValue\" : \"{{{Name}}}\" }"
         }
     ],
-    "instanceNameFormat": "Deploy Outsystems App(s)",
+    "instanceNameFormat": "Deploy Outsystems App:$(outsystemsApplication)",
     "execution": {
         "Node": {
             "target": "index.js"
