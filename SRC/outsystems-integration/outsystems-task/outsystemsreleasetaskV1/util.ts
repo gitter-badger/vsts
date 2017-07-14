@@ -96,34 +96,5 @@ function CleanOSVersion(ver: string): string{
     if (!semver.valid(cleanVersion)) {
         cleanVersion = `${cleanVersion}.0`;
     }
-
-    // if (parts[0]) {
-    //     parts[0] = parts[0].replace(/^0+/, '');
-    //     if (parts[0] === '') { parts[0] = '0'; }
-    //     cleanVersion = `${parts[0]}`;
-    // }
-    // if (parts[1]) {
-    //     parts[1] = parts[1].replace(/^0+/, '');
-    //     if (parts[1] === '') { parts[1] = '0'; }
-    //     cleanVersion = cleanVersion + `.${parts[1]}`;
-    // }
-    // if (parts[2]) {
-    //     parts[2] = parts[2].replace(/^0+/, '');
-    //     if (parts[0] === '') { parts[0] = '0'; }
-    //     cleanVersion = cleanVersion + `.${parts[2]}`;
-    // } else { cleanVersion = `${cleanVersion}.0`; }
-
-    // cleanVersion = `${parts[0]}.${parts[1]}.${parts[2]}`;
-    // ver.replace('.0', '.');
-
-    // cleanVersion = ver.replace('.0', '.');
-
-    //console.log(("str1,str2,str3,str4".match(new RegExp("str", "g")) || []).length);
-
-    // console.log((cleanVersion.match('.') || []).length);
-    // if ((cleanVersion.match(/./) || []).length < 2) {
-    //     cleanVersion = `${cleanVersion}.0`;
-    // }
-
     return cleanVersion;
 }
