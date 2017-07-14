@@ -96,5 +96,7 @@ function CleanOSVersion(ver: string): string{
     if (!semver.valid(cleanVersion)) {
         cleanVersion = `${cleanVersion}.0`;
     }
+
+    // return semver.clean(cleanVersion);
     return cleanVersion;
 }
