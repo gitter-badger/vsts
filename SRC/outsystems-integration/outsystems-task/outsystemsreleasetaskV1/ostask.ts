@@ -138,8 +138,10 @@ export class OsDeploy {
 
         let existingAppVersion: ltclt.ApplicationVersion;
         if (osAutomaticVersioning) {
-            // OS App Versions are returned ordered.
-            existingAppVersion = appVersionList[0];
+            // OS App Versions are returned ordered incorrectly. Does not follow semantic version.
+            // Custome ordering, based in semver
+            const orderedAppVersionList = util.OrderAppVersions(appVersionList);
+            existingAppVersion = orderedAppVersionList[0];
         } else {
             existingAppVersion = appVersionList.find(item => { return item.Version === osAppVersion; });
         }
@@ -217,7 +219,7 @@ export class OsDeploy {
                 .then((res) => {
                     //const deployStatus: string = res.body.DeploymentStatus;
                     this.status = res.body.DeploymentStatus;
-                    const curDeploylog : Array<ltclt.DeploymentMessage> = res.body.DeploymentLog;
+                    const curDeploylog: Array<ltclt.DeploymentMessage> = res.body.DeploymentLog;
 
                     // if (res.body.Errors) {
                     //     end(res.body.Errors);
