@@ -47,8 +47,8 @@ export class OsDeploy {
                     this.appLastVersion = this.taskOptions.osAppVersion;
                 }
                 const newModuleVersion: any = await this.GetModifiedModuleVersion(this.taskOptions.osApplication);
-                if (newModuleVersion && newModuleVersion.moduleVersion) {
-                    this.applicationName = newModuleVersion.name;
+                this.applicationName = newModuleVersion.name;
+                if (newModuleVersion.moduleVersion) {
                     this.appVersionToDeployId = await this.CreateApplicationsVersion(
                         [newModuleVersion.moduleVersion],
                         this.taskOptions.osApplication,
