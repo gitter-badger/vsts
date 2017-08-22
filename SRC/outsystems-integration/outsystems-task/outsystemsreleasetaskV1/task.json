@@ -145,7 +145,7 @@
             "resultTemplate": "{ \"Value\" : \"{{{Key}}}\", \"DisplayValue\" : \"{{{Name}}}\" }"
         }
     ],
-    "instanceNameFormat": "Deploy Outsystems App:$(outsystemsApplication)",
+    "instanceNameFormat": "Deploy Outsystems App:",
     "execution": {
         "Node": {
             "target": "index.js"
