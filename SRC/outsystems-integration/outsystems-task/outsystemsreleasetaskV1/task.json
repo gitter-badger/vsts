@@ -43,15 +43,16 @@
             "label": "Tag and Deploy",
             "defaultValue": true,
             "required": true,
-            "helpMarkDown": "Should the task create a new Outsystems Deployment Plan?"
+            "helpMarkDown": "Should the task tag a version in the source environment, prior to deployment?"
         },
         {
             "name": "outsystemsDeployPlanChangeLog",
             "type": "string",
             "label": "Change Log",
+            "visibleRule": "outsystemsTagAndDeploy = false",
             "defaultValue": "",
             "required": true,
-            "helpMarkDown": "Change log of the version to be created.",
+            "helpMarkDown": "Change log of the version to be created and tagged.",
             "properties": {
                 "resizable": "true",
                 "rows": "4"
@@ -71,7 +72,7 @@
             "label": "Application Version",
             "visibleRule": "outsystemsAutomaticVersioning = false",
             "defaultValue": "",
-            "required": false,
+            "required": true,
             "helpMarkDown": "Outsystems Application Version. Supported format is [Major].[Minor] (.[Revision]). Consider taking advantage of VSTS variables like $(Release.ReleaseName) that you can define in General tab. Example: 0.0.$(rev:rr)",
             "properties": {
                 "resizable": "true",
