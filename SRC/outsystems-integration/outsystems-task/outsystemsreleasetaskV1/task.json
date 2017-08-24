@@ -49,7 +49,7 @@
             "name": "outsystemsDeployPlanChangeLog",
             "type": "string",
             "label": "Change Log",
-            "visibleRule": "outsystemsTagAndDeploy = false",
+            "visibleRule": "outsystemsTagAndDeploy = true",
             "defaultValue": "",
             "required": true,
             "helpMarkDown": "Change log of the version to be created and tagged.",
