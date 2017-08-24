@@ -25,14 +25,6 @@
             "helpMarkDown": "Select a Outsystems service connection."
         },
         {
-            "name": "outsystemsTagAndDeploy",
-            "type": "boolean",
-            "label": "Tag and Deploy",
-            "defaultValue": true,
-            "required": true,
-            "helpMarkDown": "Should the task create a new Outsystems Deployment Plan?"
-        },
-        {
             "name": "outsystemsApplication",
             "type": "pickList",
             "label": "Application",
@@ -46,12 +38,32 @@
             }
         },
         {
+            "name": "outsystemsTagAndDeploy",
+            "type": "boolean",
+            "label": "Tag and Deploy",
+            "defaultValue": true,
+            "required": true,
+            "helpMarkDown": "Should the task create a new Outsystems Deployment Plan?"
+        },
+        {
+            "name": "outsystemsDeployPlanChangeLog",
+            "type": "string",
+            "label": "Change Log",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Change log of the version to be created.",
+            "properties": {
+                "resizable": "true",
+                "rows": "4"
+            }
+        },
+        {
             "name": "outsystemsAutomaticVersioning",
             "type": "boolean",
             "label": "Automatic Versioning",
             "defaultValue": true,
             "required": true,
-            "helpMarkDown": "Follow Outsystems application automatic versioning. Version format is supported as [Major].[Minor](.[Revision])."
+            "helpMarkDown": "Follow Outsystems application automatic versioning. Version format is supported as [Major].[Minor] (.[Revision])."
         },
         {
             "name": "outsystemsAppVersionName",
@@ -60,19 +72,7 @@
             "visibleRule": "outsystemsAutomaticVersioning = false",
             "defaultValue": "",
             "required": false,
-            "helpMarkDown": "Outsystems Application Version. Supported format is [Major].[Minor](.[Revision]). Consider taking advantage of VSTS variables like $(Release.ReleaseName) that you can define in General tab. Example: 0.0.$(rev:rr)",
-            "properties": {
-                "resizable": "true",
-                "rows": "4"
-            }
-        },
-        {
-            "name": "outsystemsDeployPlanChangeLog",
-            "type": "string",
-            "label": "Change Log",
-            "defaultValue": "",
-            "required": true,
-            "helpMarkDown": "Outsystems Application Version.",
+            "helpMarkDown": "Outsystems Application Version. Supported format is [Major].[Minor] (.[Revision]). Consider taking advantage of VSTS variables like $(Release.ReleaseName) that you can define in General tab. Example: 0.0.$(rev:rr)",
             "properties": {
                 "resizable": "true",
                 "rows": "4"
