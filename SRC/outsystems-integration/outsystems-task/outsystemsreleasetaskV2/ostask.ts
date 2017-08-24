@@ -17,20 +17,21 @@ export class OsDeploy {
     public log: Array<ltclt.DeploymentMessage> = [];
     public status: string;
 
-    public applicationIDs: string;
-    public applicationName: string;
+    public applicationIDs: Array<string> = [];
+    public applicationName: Array<any> = [];
     public changeLog: string;
     public notes: string;
     public envSource: string;
     public envTarget: string;
 
-    public appLastVersion: string;
-    public appVersionToDeploy: string;
-    public appVersionToDeployId: string;
+    public appLastVersion: Array<string> = new Array<string>();
+    //public appVersionToDeploy: string;
+    public appVersionsToDeployIds: Array<string> = new Array<string>();
 
     constructor(taskOptions: TaskOptions, lifeTime: ltclt.V1Api) {
         this.lifetime = lifeTime;
         this.taskOptions = taskOptions;
+        this.applicationIDs = this.taskOptions.osApplication.split(',');
     }
 
     private APPVERSIONSTAGINGPUBLISHINGINTERVAL: number = 5000;
@@ -42,41 +43,83 @@ export class OsDeploy {
             if (this.taskOptions.osTagAndDeploy) {
                 //OSTAGANDDEPLOY
                 if (this.taskOptions.osAutomaticVersioning) {
-                    this.appLastVersion = await this.GetLatestAppVersion(this.taskOptions.osApplication);
+                    for (const app of this.applicationIDs) {
+                        const result = await this.GetLatestAppVersion(app);
+                        this.appLastVersion.push(result);
+                    }
                 } else {
-                    this.appLastVersion = this.taskOptions.osAppVersion;
+                    this.appLastVersion.push(this.taskOptions.osAppVersion);
                 }
-                const newModuleVersion: any = await this.GetModifiedModuleVersion(this.taskOptions.osApplication);
-                this.applicationName = newModuleVersion.name;
-                if (newModuleVersion.moduleVersion) {
-                    this.appVersionToDeployId = await this.CreateApplicationsVersion(
-                        [newModuleVersion.moduleVersion],
-                        this.taskOptions.osApplication,
-                        this.taskOptions.osAutomaticVersioning,
-                        this.appLastVersion,
-                        this.taskOptions.osChangeLog,
-                        this.taskOptions.osSource);
+
+                const newModuleVersions = new Array<any>();
+                for (const app of this.applicationIDs) {
+                    const result: any = await this.GetModifiedModuleVersion(app);
+                    newModuleVersions.push(result);
+                }
+
+                this.applicationName = newModuleVersions.map((mv) => {
+                    return mv.name;
+                });
+
+                if (newModuleVersions.every((mv) => { return mv.moduleVersion; })) {
+                    //if (newModuleVersions[0].moduleVersion) {
+                    for (let i = 0; i < this.appLastVersion.length; i++) {
+                        //for (const newApp of this.appLastVersion) {
+                        const result = await this.CreateApplicationsVersion(
+                            [newModuleVersions[i].moduleVersion],
+                            //this.taskOptions.osApplication,
+                            this.applicationIDs[i],
+                            this.taskOptions.osAutomaticVersioning,
+                            this.appLastVersion[i],
+                            this.taskOptions.osChangeLog,
+                            this.taskOptions.osSource);
+                        this.appVersionsToDeployIds.push(result);
 
                     // Application Version taskes time to be published in staging.
                     // Else DeploymentCreate throws 'Failed to include application version
                     // in staging because it was never published in source environment '%s''.
                     await this.sleep();
+                        }
+                    } else if (this.applicationIDs.length > 1) {
+                        const errAppList = newModuleVersions.filter((mv) => {
+                            return mv.moduleVersion === undefined;
+                        }).map((mv) => {
+                            return mv.name;
+                        }).join();
+                        const message = tl.loc('OSFailureAppsNotModified', errAppList);
+                        //tl.setResult(tl.TaskResult.Failed, message);
+                        throw new Error(message);
                 } else {
-                    const message = tl.loc('OSFailureAppNotModified', this.applicationName);
+                    const message = tl.loc('OSFailureAppNotModified', this.applicationName[0].name);
                     //tl.setResult(tl.TaskResult.Failed, message);
                     throw new Error(message);
                 }
 
             } else {
                 // ! OSTAGANDDEPLOY
-                this.applicationName = await this.GetApplication(this.taskOptions.osApplication);
+                //this.applicationName = await this.GetApplication(this.taskOptions.osApplication);
+                for (const app of this.applicationIDs) {
+                    const result: any = await this.GetApplication(app);
+                    this.applicationName.push(result);
+                }
 
-                const appVersionKeyAndVersion = await this.GetAppVersionAndKey(this.taskOptions.osApplication, this.taskOptions.osAutomaticVersioning, this.taskOptions.osAppVersion);
-                this.appVersionToDeployId = appVersionKeyAndVersion.key;
-                this.appVersionToDeploy = appVersionKeyAndVersion.version;
+                const appVersionsKeyAndVersion: Array<any> = [];
+                for (const app of this.applicationIDs) {
+                    const result: any = await this.GetAppVersionAndKey(app, this.taskOptions.osAutomaticVersioning, this.taskOptions.osAppVersion);
+                    appVersionsKeyAndVersion.push(result);
+                }
+
+                this.appVersionsToDeployIds = appVersionsKeyAndVersion.map((apv) => {
+                    return apv.key;
+                });
+                //this.appVersionToDeploy = appVersionKeyAndVersion.version;
+
+                //const appVersionKeyAndVersion = await this.GetAppVersionAndKey(this.taskOptions.osApplication, this.taskOptions.osAutomaticVersioning, this.taskOptions.osAppVersion);
+                //this.appVersionsToDeployIds[0] = appVersionKeyAndVersion.key;
+                //this.appVersionToDeploy = appVersionKeyAndVersion.version;
             }
 
-            const newDeployPlanKey: string = await this.CreateDeployPlan([this.appVersionToDeployId], this.taskOptions.osNotes, this.taskOptions.osSource, this.taskOptions.osTarget);
+            const newDeployPlanKey: string = await this.CreateDeployPlan(this.appVersionsToDeployIds, this.taskOptions.osNotes, this.taskOptions.osSource, this.taskOptions.osTarget);
             await this.ExecuteDeployPan(newDeployPlanKey);
             const stat = await this.MonitorProgress(newDeployPlanKey);
 
@@ -158,7 +201,8 @@ export class OsDeploy {
         newAppVersion.mobileVersions = new Array<ltclt.MobileVersion>();
         newAppVersion.moduleVersionKeys = moduleVersions; //[newModuleVersionKey];
 
-        this.appVersionToDeploy = newAppVersion.version = osAutomaticVersioning ? util.GetNextSemVersion(osAppLastVersion) : osAppLastVersion;
+        //this.appVersionToDeploy = newAppVersion.version = osAutomaticVersioning ? util.GetNextSemVersion(osAppLastVersion) : osAppLastVersion;
+        const appVersionToDeploy = newAppVersion.version = osAutomaticVersioning ? util.GetNextSemVersion(osAppLastVersion) : osAppLastVersion;
         tl.debug(`New App Version :` + JSON.stringify(newAppVersion));
 
         //Base Environment where to TAG version

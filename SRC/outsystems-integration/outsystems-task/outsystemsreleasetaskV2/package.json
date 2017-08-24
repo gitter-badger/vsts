@@ -1,0 +1,29 @@
+{
+  "name": "outsystems-task",
+  "version": "0.0.1",
+  "description": "Outsystems Task package description",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://outsystemsext.visualstudio.com/OutSystemsExt"
+  },
+  "author": "João Almeida",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://outsystemsext.visualstudio.com/OutSystemsExt/docs"
+  },
+  "homepage": "http://aka.ms/outsystems",
+  "dependencies": {
+    "@types/async-polling": "0.0.2",
+    "@types/bluebird": "^3.5.8",
+    "@types/node": "^7.0.18",
+    "@types/request": "0.0.45",
+    "@types/semver": "^5.3.32",
+    "async-polling": "^0.2.1",
+    "request": "^2.81.0",
+    "vsts-task-lib": "^1.1.0"
+  }
+}
