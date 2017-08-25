@@ -40,7 +40,9 @@ export class TaskOptions {
         this.osTagAndDeploy = util.ConvertToBoolean(tl.getInput('outsystemsTagAndDeploy', true));
         this.osAppVersion = tl.getInput('outsystemsAppVersionName', false);
         this.osExistingAppVersion = tl.getInput('outsystemsExistingAppVersion', false);
-        this.osChangeLog = tl.getInput('outsystemsDeployPlanChangeLog', true);
+
+        if (this.osTagAndDeploy) { this.osChangeLog = tl.getInput('outsystemsDeployPlanChangeLog', true); } else { this.osChangeLog = tl.getInput('outsystemsDeployPlanChangeLog', false); }
+
         this.osNotes = tl.getInput('outsystemsDeployNotes', false);
         this.osSource = tl.getInput('outsystemsSourceEnvironment', true);
         this.osTarget = tl.getInput('outsystemsTargetEnvironment', true);
