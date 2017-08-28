@@ -41,7 +41,7 @@ export class TaskOptions {
         this.osAppVersion = tl.getInput('outsystemsAppVersionName', false);
         this.osExistingAppVersion = tl.getInput('outsystemsExistingAppVersion', false);
 
-        if (this.osTagAndDeploy) { this.osChangeLog = tl.getInput('outsystemsDeployPlanChangeLog', true); } else { this.osChangeLog = tl.getInput('outsystemsDeployPlanChangeLog', false); }
+        this.osChangeLog = tl.getInput('outsystemsDeployPlanChangeLog', this.osTagAndDeploy);
 
         this.osNotes = tl.getInput('outsystemsDeployNotes', false);
         this.osSource = tl.getInput('outsystemsSourceEnvironment', true);
