@@ -1,6 +1,6 @@
-OutSystems Lifetime
+OutSystems Integration
 
-Copyright (c) //TODO:Add owners name
+Copyright (c) - present Outsystems
 
 All rights reserved.
 
