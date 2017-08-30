@@ -34,6 +34,7 @@ lifetime
 samples
 agent
 *.js
+*.map
 
 # npm
 npm-debug.log

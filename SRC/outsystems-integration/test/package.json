@@ -1,8 +1,8 @@
 {
   "name": "outsystems-task",
   "version": "0.0.1",
-  "description": "Outsystems Task package description",
-  "main": "index.js",
+  "description": "Outsystems Task package Test",
+  "main": "task.test.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

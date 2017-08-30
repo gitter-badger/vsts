@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://outsystemsext.visualstudio.com/OutSystemsExt"
+    "url": "https://outsystems-partners.visualstudio.com/OutSystemsExt"
   },
   "author": "João Almeida",
   "license": "MIT",
   "bugs": {
-    "url": "https://outsystemsext.visualstudio.com/OutSystemsExt/docs"
+    "url": "https://outsystems-partners.visualstudio.com/OutSystemsExt/docs"
   },
   "homepage": "http://aka.ms/outsystems",
   "dependencies": {

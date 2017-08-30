@@ -218,7 +218,7 @@ export class OsDeploy {
         let newDeployPlanKey;
 
         deployPlan.applicationVersionKeys = appVersionKeys;
-        tl.debug(`ApplicationVersionKeys= ${deployPlan.applicationVersionKeys}`);
+        tl.debug(`ApplicationVersionKeys= ${JSON.stringify(deployPlan.applicationVersionKeys)}`);
 
         if (osNotes == null) {
             const deployPlanTimestamp = new Date();
@@ -263,9 +263,7 @@ export class OsDeploy {
                     this.status = res.body.DeploymentStatus;
                     const curDeploylog: Array<ltclt.DeploymentMessage> = res.body.DeploymentLog;
 
-                    // if (res.body.Errors) {
-                    //     end(res.body.Errors);
-                    // }
+                    // util.Log(`LOG: ${res.body.DeploymentStatus} ${new Date().toUTCString()}`);
 
                     const deltaLog = curDeploylog.slice(this.log.length, curDeploylog.length);
                     this.log = curDeploylog;
