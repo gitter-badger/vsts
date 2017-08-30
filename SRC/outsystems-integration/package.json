@@ -10,7 +10,7 @@
   },
   "scripts": {
     "clean": "rimraf ./*.vsix",
-    "compile": "tsc -p test && tsc -p outsystems-task\\outsystemsreleasetaskV1 && tsc -p outsystems-task\\outsystemsreleasetaskV2",
+    "compile": "tsc -p .",
     "build": "npm run clean && npm run compile",
     "package": "npm run build && tfx extension create --rev-version --manifest-globs",
     "install-task-lib" : "cd test && npm install --save-dev && cd.. && cd outsystems-task\\outsystemsreleasetaskV1 && npm install --save-dev && cd.. && cd.. &&cd outsystems-task\\outsystemsreleasetaskV2 && npm install --save-dev"
