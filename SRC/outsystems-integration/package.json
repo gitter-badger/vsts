@@ -2,8 +2,9 @@
   "name": "outsystems-integration",
   "private": true,
   "version": "0.0.1",
-  "description": "Outsystems Integration Extension",
+  "description": "Simplify the creation and maintenance of your DevOps cycle with the OutSystems VSTS Extension.",
   "main": "gulpfile.js",
+  "galleryBanner.color": "FF2400",
   "directories": {
     "doc": "docs"
   },
@@ -19,9 +20,9 @@
     "url": "https://outsystemsext.visualstudio.com/OutSystemsExt"
   },
   "keywords": [
-    "Outsystems",
+    "outsystems",
     "VSTS",
-    "Release",
+    "release",
     "tasks"
   ],
   "author": "João Almeida",
