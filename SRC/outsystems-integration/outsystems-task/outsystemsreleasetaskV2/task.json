@@ -12,7 +12,7 @@
     "version": {
         "Major": 2,
         "Minor": 1,
-        "Patch": 6
+        "Patch": 7
     },
     "demands": [],
     "minimumAgentVersion": "1.99.0",
@@ -34,8 +34,7 @@
             "properties": {
                 "MultiSelectFlatList": "True",
                 "DisableManageLink": "True",
-                "EditableOptions": "false",
-                "PopulateDefaultValue": "true"
+                "EditableOptions": "false"
             }
         },
         {
