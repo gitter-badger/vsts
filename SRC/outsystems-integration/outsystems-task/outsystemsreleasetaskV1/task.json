@@ -14,6 +14,7 @@
         "Minor": 1,
         "Patch": 73
     },
+    "releaseNotes": "Single OS App support",
     "demands": [],
     "minimumAgentVersion": "1.99.0",
     "inputs": [
