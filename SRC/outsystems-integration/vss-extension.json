@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "outsystems-integration",
     "version": "0.0.96",
-    "name": "OutSystems Integration",
+    "name": "OutSystems VSTS Integration",
     "scopes": [],
     "description": "OutSystems Platform Integration",
     "publisher": "joalmeidg",
@@ -26,7 +26,7 @@
         "api-version/3.0"
     ],
     "tags": [
-        "Outsystems"
+        "outsystems"
     ],
     "categories": [
         "Integrate"
@@ -55,21 +55,21 @@
     },
     "links": {
         "getstarted": {
-            "uri": "https://aka.ms/outsystems"
+            "uri": "https://github.com/Microsoft/vsts-tasks/tree/master/Tasks"
         },
         "support": {
-            "uri": "https://aka.ms/outsystems"
+            "uri": "https://github.com/Microsoft/vsts-tasks/tree/master/Tasks"
         },
         "issues": {
-            "uri": "https://aka.ms/outsystems"
+            "uri": "https://github.com/Microsoft/vsts-tasks/tree/master/Tasks"
         }
     },
     "repository": {
         "type": "git",
-        "uri": "https://aka.ms/outsystems"
+        "uri": "https://github.com/Microsoft/vsts-tasks/tree/master/Tasks"
     },
     "branding": {
-        "color": "rgb(204, 34, 0)",
+        "color": "rgb(255, 36, 0)",
         "theme": "dark"
     },
     "contributions": [
@@ -92,10 +92,10 @@
             ],
             "properties": {
                 "name": "outsystems",
-                "displayName": "Outsystems Platform",
+                "displayName": "OutSystems Platform",
                 "url": {
                     "displayName": "Server Url",
-                    "helpText": "Url for the Outsystems Lifetime to connect to."
+                    "helpText": "Url for the OutSystems Lifetime to connect to."
                 },
                 "dataSources": [
                     {
