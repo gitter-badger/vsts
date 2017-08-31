@@ -1,4 +1,4 @@
-Last updated: 10th May 2017 
+Last updated: 31th Aug 2017 
 
 Please visit our blog post announcing the features of the extension: <https://blog.chef.io/2017/05/10/integrate-chef-into-your-build-and-release-pipelines-with-microsoft-visual-studio-team-services/>
 

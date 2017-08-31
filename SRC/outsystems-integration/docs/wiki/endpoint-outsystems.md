@@ -1,1 +1,0 @@
-An endpoint called 'Chef Server' is bundled with this extension. This allows multiple Chef servers to be configured and reused across tasks as required. Endpoints are a per-project configuration and can be accessed via Project Settings (cog) > Services
