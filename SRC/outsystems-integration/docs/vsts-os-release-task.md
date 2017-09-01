@@ -36,51 +36,50 @@ In Team Services or Team Foundation Server, you can now create a new Release Def
 
 Name your first environment, and also the Release Definition. In this case we're **creating the 'Test' environment**, as this will be the first Outsystems environment we're interested in deploying to. Outsystems 'Development' environment is not created as the deployments are done transparentely from the Outsystems Service Studio.
 
-![](doc-vsts-ostask-createrelease-01-envTest.png)
+![](/images/doc-vsts-ostask-createrelease-01-envTest.png)
 
 Rename the release definition, appropriately:
 
-![](doc-vsts-ostask-createrelease-02-renameRelease.png)
+![](/images/doc-vsts-ostask-createrelease-02-renameRelease.png)
 
 Next, we’ll dive into the first environment and define tasks the engine will execute. 
 Add a new task to this agent phase. Find the 'Outsystems Release Task' in the task list, and press the 'Add' button.
 
-![](doc-vsts-ostask-createrelease-03-AddTask.png)
+![](/images/doc-vsts-ostask-createrelease-03-AddTask.png)
 
 Now it’s time to configure our release task. Here we’ll specify information about the release process we want Outsystems Lifetime to execute. Configure the task with a reference to your Outsystems platform. This is done by picking a pre-configured service endpoint in the field **'Outsystems Connection'**. If you haven't configured yet, you can press the 'New' button and follow the [Outsystems Service Endpoint documentation](vsts-os-service-endpoint.md).
 
-![](doc-vsts-ostask-createrelease-04-AddServiceEndpoint.png)
+![](/images/doc-vsts-ostask-createrelease-04-AddServiceEndpoint.png)
 
 Next, we'll pick the Outsystems applications we want to release in this definition. In our example, we're picking **X01 Darts** and **X0M Darts**:
 
-![](doc-vsts-ostask-createrelease-05-SelectApps.png)
+![](/images/doc-vsts-ostask-createrelease-05-SelectApps.png)
 
 We'll select the the **'Tag and Deploy'** option, as we want to tag any new version. We'll use **'Automatic Versioning'** as this will follow Outsystems versioning format.
 
 It's important to also specify the **'Change Log'** and **'Deploy Notes'**, as this information will be available in the Outsystems Platform, and usefull for traceability purposes. The 'Change Log' will be tied to the tagged version of the application and the 'Deploy notes' will describe the release done inside the Outsystems Lifetime.
 
-![](doc-vsts-ostask-createrelease-06-ChangelogNotes.png)
+![](/images/doc-vsts-ostask-createrelease-06-ChangelogNotes.png)
 
 The **'Source'** and **'Target'** environments are Outsystems environments, defined in the platform. The task will release the application available in the 'source' environment to the 'target' environment. In this example we want to deploy the application available in the 'Development' environment to the 'Test' environment:
 
-![](doc-vsts-ostask-createrelease-07-Environments.png)
+![](/images/doc-vsts-ostask-createrelease-07-Environments.png)
 
 We're done for this specific environment in the release definition. Now, you can either add new Outsystems tasks to deploy additional Outsystems apps, or you can configure deployment of non-Outsystems apps with all the release tasks necessary to meet your goals. Remember: you can **clone tasks and environments** and this will make your life much easier.
 
 Next, Our goal is to create the **‘Production’** environment that will deploy apps between the ‘Test’ Outsystems environment and the ‘Production’ Environment. Because it’s also possible to clone environments, we’ll do exactly that: Cloning our ‘Test’ environment and renaming it as ‘Production’ will do it. 
 
-![](doc-vsts-ostask-createrelease-08-AddProductionEnvironment.png)
+![](/images/doc-vsts-ostask-createrelease-08-AddProductionEnvironment.png)
 
 Let's edit the 'Outsystems Release Task' in the (cloned) 'Production' enviroment. Change the source and target environments. Here we want to deploy the application available in the 'Test' environment to the 'Production' environment.
 
 Finally, one important concept to consider. When releasing apps from Outsystems ‘Test’ and ‘Production’ environments **we’re not interested in tagging the applications**. The desired behavior is to release any new version from ‘Development’ and ‘Test’ environments tagging it. However, when releasing from ‘Test’ to ‘Production’ we want the exact same version to be released. The way to configure this, is *unchecking* the **‘Tag and Deploy’** option. This configuration will always release the latest version from the source to the target environments. 
 
-![](doc-vsts-ostask-createrelease-09-ProductionConfigTask.png)
+![](/images/doc-vsts-ostask-createrelease-09-ProductionConfigTask.png)
 
 Now you can create a release and run it. We can see complete details of the execution, even the deployment log from Outsystems Lifetime, is retrieved and presented. This way, you can have full logging in VSTS and check recent or past outcomes without the need to jump into Outsystems Lifetime.
 
-![](doc-vsts-ostask-createrelease-10-running.png)
-
+![](/images/doc-vsts-ostask-createrelease-10-running.png)
 
 Let’s go through what we’ve accomplished:
  - We’ve created a Release Definition to deploy two applications (X01 Darts and X0M Darts) through all the Outsystems Environments: ‘Development’ -> ‘Test’ -> ‘Production’;
