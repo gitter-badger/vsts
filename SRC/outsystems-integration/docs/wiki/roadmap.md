@@ -83,7 +83,6 @@ We want VS Code to be a great tool for developing modern MEAN/MERN applications 
 ### Node
 * [x] Provide Node/MEAN Extension packs
 * Update recommended Node extension triggers (e.g. on package.json, recommend Node extension pack)
-* [x] Include the [npm](https://marketplace.visualstudio.com/items?itemName=eg2.vscode-npm-script) extension functionality
 * Node Debugging
   * [x] Async stacks
   * [x] Column break points
@@ -111,8 +110,8 @@ Of course, VS Code is not just a Node, JavaScript, and TypeScript tool. Our rich
 * Identify and resolve setting conflicts
 
 ### Contribute to Extensions
-* 🏃 [GO](https://github.com/microsoft/vscode-go)
-* 🏃 [Docker](https://github.com/microsoft/vscode-docker)
+* 🏃 [GO](https://github.com/outsystems/vsts-outsystems-go)
+* 🏃 [Docker](https://github.com/outsystems/vsts-outsystems-docker)
 
 ## Summary
 These are examples of just some of the work we will be focusing on in the next 6 to 12 months. We continuously tune the plan based on feedback and we will provide more detail in each of our monthly iteration plans. Please follow along and let us know what you think!

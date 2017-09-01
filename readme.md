@@ -1,7 +1,7 @@
 # Outsystems Integration - Open Source
 
 [![Build Status](https://travis-ci.org/outsystems/vsts-outsystems.svg?branch=master)](https://travis-ci.org/outsystems/vsts-outsystems)
-[![Build Status](https://ci.appveyor.com/api/projects/status/vuhlhg80tj3e2a0l/branch/master?svg=true)](https://ci.appveyor.com/project/VSCode/vscode)
+[![Build Status](https://ci.appveyor.com/api/projects/status/vuhlhg80tj3e2a0l/branch/master?svg=true)](https://ci.appveyor.com/project/outsystems/vsts-outsystems)
 [![Coverage Status](https://img.shields.io/coveralls/outsystems/vsts-outsystems/master.svg)](https://coveralls.io/github/outsystems/vsts-outsystems?branch=master)
 [![Gitter](https://img.shields.io/badge/chat-on%20gitter-blue.svg)](https://gitter.im/outsystems/vsts-outsystems)
 
