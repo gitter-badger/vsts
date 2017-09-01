@@ -110,8 +110,8 @@ Of course, VS Code is not just a Node, JavaScript, and TypeScript tool. Our rich
 * Identify and resolve setting conflicts
 
 ### Contribute to Extensions
-* 🏃 [GO](https://github.com/outsystems/vsts-outsystems-go)
-* 🏃 [Docker](https://github.com/outsystems/vsts-outsystems-docker)
+* 🏃 [GO](https://github.com/OutSystems/vsts-go)
+* 🏃 [Docker](https://github.com/OutSystems/vsts-docker)
 
 ## Summary
 These are examples of just some of the work we will be focusing on in the next 6 to 12 months. We continuously tune the plan based on feedback and we will provide more detail in each of our monthly iteration plans. Please follow along and let us know what you think!

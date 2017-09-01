@@ -2,9 +2,9 @@ This page describes how we track issues in the `vsts-outsystems` repository.
 
 ## Popular queries
 
-- [Inbox tracking](https://github.com/outsystems/vsts-outsystems/issues?utf8=%E2%9C%93&q=is%3Aopen%20no%3Aassignee%20-label%3Afeature-request%20-label%3Atestplan-item%20-label%3Aplan-item%20-label%3Aextension-candidate)
-- [Bugs to be Verified](https://github.com/outsystems/vsts-outsystems/issues?utf8=%E2%9C%93&q=is%3Aissue%20label%3Abug%20-label%3Averified%20is%3Aclosed%20-label%3Aduplicate%20-label%3Ainvalid%20) - VS Code only
-- [Verification Needed](https://github.com/outsystems/vsts-outsystems/issues?q=is%3Aissue+-label%3Averified+is%3Aclosed+label%3Averification-needed) - VS Code only
+- [Inbox tracking](https://github.com/OutSystems/vsts/issues?utf8=%E2%9C%93&q=is%3Aopen%20no%3Aassignee%20-label%3Afeature-request%20-label%3Atestplan-item%20-label%3Aplan-item%20-label%3Aextension-candidate)
+- [Bugs to be Verified](https://github.com/OutSystems/vsts/issues?utf8=%E2%9C%93&q=is%3Aissue%20label%3Abug%20-label%3Averified%20is%3Aclosed%20-label%3Aduplicate%20-label%3Ainvalid%20) - VS Code only
+- [Verification Needed](https://github.com/OutSystems/vsts/issues?q=is%3Aissue+-label%3Averified+is%3Aclosed+label%3Averification-needed) - VS Code only
 
 
 ## Inbox tracking and Issue triage
@@ -12,7 +12,7 @@ New issues or pull requests submitted by the community are triaged by a team mem
 
 ### Inbox Tracking
 
-The [Inbox query](https://github.com/outsystems/vsts-outsystems/issues?utf8=%E2%9C%93&q=is%3Aopen%20no%3Aassignee%20-label%3Afeature-request%20-label%3Atestplan-item%20-label%3Aplan-item%20-label%3Aextension-candidate) contains all the
+The [Inbox query](https://github.com/OutSystems/vsts/issues?utf8=%E2%9C%93&q=is%3Aopen%20no%3Aassignee%20-label%3Afeature-request%20-label%3Atestplan-item%20-label%3Aplan-item%20-label%3Aextension-candidate) contains all the
 - **open issues or pull requests** that
 - are **not feature requests** nor **test plan items** nor **plan items** nor **extension candidates** and
 - have **no owner assignment**.
@@ -26,10 +26,10 @@ The **inbox tracker** should do the following initial triage:
 **Everyone** should do the following secondary triage to their assigned issues (the **inbox tracker** may do some of these steps too, if obvious):
 - If an issue needs more info, assign the `needs more info` and ask for more information in a comment.
 - Ensure that the issue has a **type** label, that is, `bug`, `feature-request`, `debt`, `needs more info`
-- Ensure that the issue has a **feature-area** label and optionally a sub area, see [Feature Areas](https://github.com/outsystems/vsts-outsystems/wiki/Feature-Areas).
+- Ensure that the issue has a **feature-area** label and optionally a sub area, see [Feature Areas](https://github.com/OutSystems/vsts/wiki/Feature-Areas).
 - Do a best effort to identify duplicates
 - If the issue is a feature-request then the initial owner optionally unassigns himself from the issue. 
-- If the issue is an important `bug`, assign an `important` label and optionally mention @outsystems/vsts-outsystems to get the attention of the entire team.
+- If the issue is an important `bug`, assign an `important` label and optionally mention @OutSystems/vsts to get the attention of the entire team.
 - If the issue needs to be fixed in this release, assign it to the current milestone (eg: blocks a scenario, completes a new feature, etc.). 
 - If needed, follow-up with the author.
 
@@ -53,8 +53,8 @@ Issues need to be verified.
 
 Verification is a service that you request from others either implicitly with the `bug`-label or explicitly with the `verification-needed`-label. Find issue that are to be verified with these queries
 
-- [bugs to be verified, VS Code](https://github.com/outsystems/vsts-outsystems/issues?utf8=%E2%9C%93&q=is%3Aissue%20label%3Abug%20-label%3Averified%20is%3Aclosed%20-label%3Aduplicate%20-label%3Ainvalid%20)
-- [verification needed, VS Code](https://github.com/outsystems/vsts-outsystems/issues?q=is%3Aissue+-label%3Averified+is%3Aclosed+label%3Averification-needed)
+- [bugs to be verified, VS Code](https://github.com/OutSystems/vsts/issues?utf8=%E2%9C%93&q=is%3Aissue%20label%3Abug%20-label%3Averified%20is%3Aclosed%20-label%3Aduplicate%20-label%3Ainvalid%20)
+- [verification needed, VS Code](https://github.com/OutSystems/vsts/issues?q=is%3Aissue+-label%3Averified+is%3Aclosed+label%3Averification-needed)
 - [bugs to be verified, all GitHub projects](https://github.com/issues?utf8=✓&q=is%3Aissue+is%3Aclosed+-label%3Averified+label%3Abug+repo%3AMicrosoft%2Fvscode)
 - [verification needed, all GitHub projects](https://github.com/issues?utf8=✓&q=is%3Aissue+is%3Aclosed+-label%3Averified+label%3Averification-needed)
 
@@ -83,5 +83,5 @@ Use the [issue mover](https://github-issue-mover.appspot.com/) tool to move bugs
 
 ## Iteration Planning
 We use issues for iteration plans and the wiki for the test plan. 
-- Iteration Plans have a label `iteration-plan` with `tasks` [ ] for the different items. The individual items are tracked in existing issues (bugs, feature requests). If there is no existing issue then a new issue with the label `plan-item` is created. Here is an [example](https://github.com/outsystems/vsts-outsystems/issues/917).
-- We use a wiki page for a test plan. Here is an [example](https://github.com/outsystems/vsts-outsystems/wiki/December-Test-Plan).
+- Iteration Plans have a label `iteration-plan` with `tasks` [ ] for the different items. The individual items are tracked in existing issues (bugs, feature requests). If there is no existing issue then a new issue with the label `plan-item` is created. Here is an [example](https://github.com/OutSystems/vsts/issues/917).
+- We use a wiki page for a test plan. Here is an [example](https://github.com/OutSystems/vsts/wiki/December-Test-Plan).

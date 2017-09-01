@@ -57,6 +57,6 @@ Please refer to the following documentation:
 
 # Further info
 
-The source to this extension is available [here](https://github.com/outsystems/vsts-outsystems). For contribution purporses check the [Wiki](https://github.com/outsystems/vsts-outsystems/wiki) : report issues, feedback, request features, coding guidelines guidance.
+The source to this extension is available [here](https://github.com/OutSystems/vsts). For contribution purporses check the [Wiki](https://github.com/OutSystems/vsts/wiki) : report issues, feedback, request features, coding guidelines guidance.
 
 More information will appear here, for the meantime visit our [announcement](https://www.outsystems.com/blog/enterprise-grade-devOps-with-outsystems.html).
