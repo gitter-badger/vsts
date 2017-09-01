@@ -1,7 +1,11 @@
-Add the VSTS/TFS variables for the Outsystems **Release Task environment**.
+
+# Outsystems Release Task #
+
+This task runs in an Agent phase within the Release process. It's goal is to allow you to determine a release process to be run inside the Outsystems platform - through **Outystems Lifetime**.
+
+The Application Lifecycle Management (ALM) is the continuous process of managing applications throughout their entire lifecycle: from development to maintenance. Outsystems LifeTime is the unified console with visibility of all environments in your infrastructure. It manages the deployment of applications, IT users, and security across all environments.
 
 ## Settings
-
 
 | Setting | Required | Default Value | Description |
 | --- | --- | --- | --- | 
@@ -15,12 +19,6 @@ Add the VSTS/TFS variables for the Outsystems **Release Task environment**.
 | Deploy Notes | no | - | Outsystems Deployment Plan Notes. If no Deploy Notes are defined, a defult note will be generated in the format: 'DD-MM-yyyy-hh-mm'. |
 | Source Environment | yes | - | Select the Outsystems source environment for this deployment. |
 | Target Environment | yes | - | Select the Outsystems target environment for this deployment. |
-
-### Information
-
-This task runs in an Agent phase within the Release process. It's goal is to allow you to determine a release process to be run inside the Outsystems platform - through **Outystems Lifetime**.
-
-The Application Lifecycle Management (ALM) is the continuous process of managing applications throughout their entire lifecycle: from development to maintenance. Outsystems LifeTime is the unified console with visibility of all environments in your infrastructure. It manages the deployment of applications, IT users, and security across all environments.
 
 ## Walkthrough
 
