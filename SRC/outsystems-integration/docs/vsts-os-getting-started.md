@@ -13,6 +13,13 @@ This extension focuses on:
   - Schedule automatic releases and/or request on demand;
   - An approval system for release executions.
 
+## Advantages and added value
+
+ - Ability to have a single DevOps infrastructure in an heteogenous development stack. To coordinate releases for both non-Outsystems applications and Outsystems applications. 
+ - Coordinate releases that include non-Outsystems stack and Outsystems applications. For example, have Continuous Delivery for Outsystems front-end applications and internal enterprises backends, developed is heterogeneuous technologies (Classic ASP websites, WCF services, Java REST APIs, Python websites or NodeJS REST APIs)
+ - Inherit Team Services/Team Foundation Server features and integration capabilities with you Outsystems platform (on public clouds, private clouds ou on-premises). 
+ - Strong traceability between Team Services/Team Foundation Server and Outsystems platform.
+ 
 ### Requirements
 
 - From TFS 2015 Update 2
@@ -20,13 +27,17 @@ This extension focuses on:
 
 ## Outsystems Platform
 
-You can use these tasks with your own [private Chef Server](http://downloads.chef.io), a [hosted Chef Server](https://www.chef.io) or a [Chef Automate server installed from the Azure Marketplace](https://blog.chef.io/2017/05/01/chef-automate-in-the-azure-marketplace/).  Note: If you use your own Chef Server you will most likely need to disable SSL Verification in the Chef Server endpoint.
+The [OutSystems Platform](https://www.outsystems.com) is a high-productivity platform as a service (PaaS) intended for developing and delivering enterprise web and mobile applications, which run in the cloud, on-premises or in hybrid environments. 
+
+OutSystems Platform has grown out of experience with providing on-premises and private cloud solutions and targets professional developers. Its ease of use is consistent, even with increasing scale and complexity, but (although accessible to a business analyst) it generally requires the participation of a skilled OutSystems programmer. In addition to its basic high-productivity capabilities (allowing development of business apps at the visual modelling and business logic level), positive aspects include its provision of a rich developer experience, without limits, and with support for change management and re-factoring; its capabilities for delivering a good end-user experience; and the fact that it leaves control in the hands of the organisation employing it (its support for on premises and hybrid cloud, as well as public cloud, deployments is an example).
 
 ### Outsystems Release Task
 
-All Build phase tasks can run on hosted VSTS agents (such as the Hosted Linux Preview) or your own private Agent.
+The 'Outsystems Release Task' is the release task that allows anyone to determine a release process to be run inside the Outsystems platform - through **Outystems Lifetime**.
 
-To get started with the Chef Release tasks, the simplest way is to use the Hosted Linux Preview agent, otherwise you'll need to install both the [VSTS Agent](https://www.visualstudio.com/en-us/docs/build/actions/agents/v2-linux) and the [Chef Development Kit](https://downloads.chef.io/chefdk) on a private agent.
+This task will allow you to tag and deploy Outsystems applications between any provisioned Outsystems environment. It allows specific versions to be deployed and/or follow the automatic versioning from Outsystems platform.
+
+Provides complete deployment plan execution details, gathered directly from Outsystems platform. 
 
 ### Quick steps to get started ###
 
