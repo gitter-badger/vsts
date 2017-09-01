@@ -28,7 +28,7 @@
         {
             "name": "outsystemsApplication",
             "type": "pickList",
-            "label": "Application",
+            "label": "Application(s)",
             "defaultValue": "",
             "required": true,
             "helpMarkDown": "Select one or more Outsystems applications to deploy. [Learn more.](https://aka.ms/outsystems)",
