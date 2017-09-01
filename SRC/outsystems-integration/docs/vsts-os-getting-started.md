@@ -30,11 +30,14 @@ To get started with the Chef Release tasks, the simplest way is to use the Hoste
 
 ### Quick steps to get started ###
 
-![](/static/images/Screen1.png)
+![](/images/doc-vsts-install.png)
 
-To make the OutSystems Relese Task available, you must:
+To make the OutSystems Release Task available, you must:
+- Install the **'Outsystems Integration'** in your Team Services subscription or your Team Foundation Server deployment.
 - Configure a service end-point in VSTS/TFS for accessing the OutSystems platform;
-- Use the OutSystems Release Task in your release configuration.
+- Use the 'OutSystems Release Task' in your Team Services/Team Foundation Server release definitions.
+
+![](/images/doc-vsts-ostask.png)
 
 Please refer to the following documentation:
 - [Outsystems Release Task](vsts-os-release-task.md)
